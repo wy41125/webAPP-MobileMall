@@ -1,0 +1,151 @@
+@import '../../libs/commnd.less';
+.My{
+	font-size: @threeFontSize;
+	width: 100%;
+	.headerDiv{
+		width: 100%;
+		// height: 2rem;
+		margin-bottom: .1rem;
+		background: url('../images/my/homepage/background@2x.png') no-repeat;
+		background-size: 100%;
+		.title{
+			width: 100%;
+			height: @titleHeight; 
+			position: relative;
+			// background:url('../images/my/homepage/setup@2x.png') no-repeat;
+			// background-size: 0.2rem .19rem; 
+			// background-position: 96% 0.13rem;
+			i{
+				display: inline-block;
+				width: .2rem;
+				height: .19rem;
+				background:url('../images/my/homepage/setup@2x.png') no-repeat;
+				background-size: 100%;
+				position: absolute;
+				right: 13px;
+				top: 10px;
+			}
+		}
+		.user{
+			text-align: left;
+			padding: @padding010 @padding015;
+			p{
+				display: inline-block;
+				margin-right: 0.15rem;
+				border-radius: 50%;
+				width: 0.65rem;
+				height: 0.65rem;
+				color: #fff;
+				font-size: @twoFontSize;
+				&:nth-child(1){
+					background-color: @oneBackgroundColor;
+					vertical-align: middle;
+					img{
+						width: 100%;
+						height: 100%;
+						border-radius: 50%;
+						// vertical-align: bottom;
+					}
+				}
+				&:nth-child(2){
+					width: 1.5rem;
+				}
+			}
+			img{
+				
+			}
+		}
+	}
+	.userOrder{
+		width: 100%;
+		background-color: #fff;
+		margin-bottom: 0.15rem;
+		p{
+			width: 90%;
+			height: 0.35rem;
+			padding: @padding010 @padding015;
+			font-size: @twoFontSize;
+			span{
+				display: inline-block;
+				width: 48%;
+				text-align: left;
+				&:nth-child(2){
+					text-align: right;
+					color: #b0b0b0;
+					position: relative;
+				}
+			}
+			i{
+				margin-left: .05rem;
+				display: inline-block;
+				width: .06rem;
+				height: .07rem;
+				background: url(../images/my/more@2x.png) no-repeat;
+				background-size: 100%;
+				vertical-align: middle;
+			}
+		}
+		div{
+			display: inline-block;
+			width: 24%;
+			text-align: center;
+			padding: @padding010 0 @padding015 0;
+			color:#676767;
+			font-size: @threeFontSize;
+			position: relative;
+			img{
+				width: 0.22rem;
+				height: 0.22rem;
+			}
+			.tishiNum{
+				display: inline-block;
+				width: .16rem;
+				height: .16rem;
+				line-height: .16rem;
+				text-align: center;
+				border-radius: .16rem;
+				background: #FF4141;
+				color: #fff;
+				position: absolute;
+				top: 0.05rem;
+				right: 0.15rem;
+			}
+		}
+	}
+	.userColumn{
+		background-color: #fff;
+		padding: .2rem 0 0 0;
+		width: 100%;
+		display: flex;
+		display: -webkit-flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		margin-bottom: 0.5rem;
+		font-size: .12rem;
+		p{
+			width: 24%;
+			margin-bottom: .26rem;
+			img{
+				width: 0.22rem;
+				height: 0.19rem;
+			}
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,110 @@
+@import '../../libs/commnd.less';
+.order{
+	width: 100%;
+	height: 100%;
+	font-size: @threeFontSize;
+	background: #fff;
+	.title_ul{
+		width: 100%;
+		background: @oneBackgroundColor;
+		border-bottom: 1px solid @segmentingLin;
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 100;
+		display: flex;
+		display: -webkit-flex;
+		li{
+			flex-grow:1;
+			display: inline-block;
+			// width: 19%;
+			text-align: center;
+			line-height: .42rem;
+			&.active{
+				border-bottom: 2px solid @themeColor;
+				color: @themeColor;
+			}
+		}
+	}
+	.haveData{ 
+		margin-top: 0.5rem;
+		width: 100%;
+		overflow: scroll;
+		height: 100%;
+		background-color: #f3f3f3;
+		.order_data{
+			width: 100%;
+			background: @oneBackgroundColor;
+			margin-bottom: .08rem;
+			p{
+				padding: @padding010 @padding015;
+				text-align: right;
+			}
+			.time{
+				span{
+					color: @auxiliaryFont;
+					float: left;
+				}
+				i{
+					color: @tagging;
+				}
+			}
+			.button{
+				span{
+					display: inline-block;
+					padding: .05rem .17rem;
+					border:1px solid @themeColor;
+					color:@themeColor;
+					border-radius: @borderRagin;
+					margin-left: 0.1rem;
+				}
+				.black{
+					border:1px solid @textColor;
+					color:@textColor;
+				}
+				.background{
+					background: @themeColor;
+					color: #fff;
+				}
+				.noclick{//尾款支付致灰样式
+					opacity: .5;
+				}
+			}
+			.good{
+				border-bottom: 1px solid @segmentingLin;
+			}
+			div{
+				padding: @padding010 @padding015;
+				background: @MainBackgroundColor;
+				text-align: left;
+				img{
+					width: 0.55rem;
+					height: 0.55rem;
+					background: #ddd;
+					display: inline-block;
+					margin-right: 0.1rem;
+					vertical-align: middle;
+				}
+			}
+		}
+	}
+	.nodata{
+		display: inline-block;
+		position: fixed;
+		top: 35%;
+		left: 0;
+		width: 100%;
+		img{
+			display: block;
+			width: 1.02rem;
+			height: .81rem;
+			padding-left: .15rem;
+			margin: 0 auto;
+			margin-bottom: .08rem;
+		}
+		span{
+			color: @auxiliaryFont;
+			font-size: .13rem;
+		}
+	}
+}

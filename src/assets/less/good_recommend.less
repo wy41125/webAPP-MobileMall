@@ -1,0 +1,155 @@
+@import '../../libs/commnd.less';
+
+.package{
+	// width: 100%;
+	font-size: .14rem;
+	color: @textColor;
+	.header{
+      width: 90%; 
+      height: 0.4rem;
+      line-height: 0.4rem;
+      font-size: @threeFontSize;
+      padding: 0 5%;
+      text-align: right;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: #fff;
+      border-bottom: 1px solid @segmentingLin;
+      z-index: 100;
+      em{
+      	display: inline-block;
+      	width: .25rem;
+      	height: .25rem;
+      	background: url('../images/goods/goods_shopcar@2x.png') no-repeat;
+      	background-size: .25rem;
+      	vertical-align: middle;
+      }
+	}
+	.packages{
+		margin-top: .4rem;
+		.package{
+			padding: @padding010 @padding015;
+			margin-bottom: @marginbottom010;
+			background-color: #fff;
+			// width: 90%;
+			.packageName{
+				padding-bottom: @padding010;
+				padding-right: .35rem;
+				border-bottom:1px solid @segmentingLin;
+				position: relative;
+				text-align: left;
+				font-weight: normal;
+				font-size: .13rem;
+				em{
+					display: inline-block;
+					border:1px solid @tagging;
+					color: @tagging;
+					margin-right: .05rem;
+				}
+				span{
+					color: @tagging;
+					float: right;
+				}
+			}
+			.packageImg{
+				text-align: left;
+				.packageImg_p{
+					display: inline-block;
+					img{
+						width: .76rem;
+						height: .76rem;
+						margin-right: @marginbottom010;
+						vertical-align: middle;
+					}
+				}
+			}
+			.packageGoods{
+				display: none;
+				.packageGood{
+					border-bottom: 1px solid @segmentingLin;
+					padding: .1rem 0;
+					text-align: left;
+					.packageGood_img{
+						display: inline-block;
+						position: relative;
+						width: .76rem;
+						height: .76rem;
+						img{
+							width: .76rem;
+							height: .76rem;
+						}
+						.mask{
+							position: absolute;
+							top: 0;
+							left: 0;
+							width: .65rem;
+							height: .65rem;
+							background-color: #000;
+							opacity: 0.8;
+							text-align: center;
+							line-height: .65rem;
+							color: #fff;
+						}
+					}
+					.packageGood_data{
+						display: inline-block;
+						vertical-align: top;
+						p{
+							text-align: left;
+						}
+						p:nth-child(1){
+							font-size: .14rem;
+							height: .4rem;
+							overflow : hidden;
+                            text-overflow: ellipsis;
+                            display: -webkit-box;
+                            -webkit-line-clamp:2;
+                            -webkit-box-orient: vertical;
+						}
+						p:nth-child(2){
+							color: @auxiliaryFont;
+							font-size: .13rem;
+							font-weight: bold;
+						}
+						p:nth-child(3){
+							color: @tagging;
+							font-size: .12rem;
+						}
+					}
+				}
+				.packageGoods_button{
+					display: flex;
+					display: -webkit-flex;
+					justify-content: space-around;
+					padding: .1rem 0;
+					.el-input-number{
+						width: .9rem;
+					}
+					button{
+						width: 25%;
+						display:inline-block;
+						text-align: center;
+						background-color: @themeColor;
+						color: #fff;
+						border:0px solid #ddd;
+						&:nth-child(2){
+							background-color: #000;
+						}
+						&.disabled{
+							background-color: #ddd;
+						}
+					}
+				}
+			}
+		}
+		.packageshow{
+			.packageImg{
+				display: none;
+			}
+			.packageGoods{
+				display: block;
+			}
+		}
+	}
+}

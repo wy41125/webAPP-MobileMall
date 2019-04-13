@@ -1,0 +1,152 @@
+@import '../../libs/commnd.less';
+header{
+	border-bottom: 1px solid @segmentingLin;
+}
+.mint-header{
+	color: #000;
+	background-color: @oneBackgroundColor;
+}
+.mint-tab-item-label{
+	font-size: inherit;
+}
+//搜索标题，左侧带后退按钮，右侧带自定义按钮
+.customInput{
+	.is-left,.is-right{
+		flex:0;
+		width: 10%;
+	}
+	.is-left{
+		.mainIcon{
+			display: inline-block;
+			width: 0.22rem;
+			height: 0.22rem;
+			background: url('../images/main_icon.png') no-repeat;
+			background-size: 100%;
+		}
+	}
+	.mint-header-title{
+		margin: .07rem @marginbottom010;
+		width: 2.71rem;
+		height: .3rem;
+		text-align: left;
+		font-size: .13rem;
+		color: #999; 
+		padding-left: 35rem;
+		background-color: #f5f5f5;
+		text-align: left;
+		.icon{
+			display: inline-block;
+			width: .15rem;
+			height: .15rem;
+			background: url('../images/search_icon.png') no-repeat;
+			background-size: .15rem;
+			margin: .1rem .08rem;
+		}
+		.mint-header-input{
+			// display: inline-block;
+			
+			// height: 0.3rem;
+			// line-height: .3rem;
+			// width: 100%;
+			// // background: url('../images/search_icon.png') no-repeat;
+			// background-size: 5%;
+			// background-position:0.15rem 0.07rem;
+		}
+	}
+	.mint-button-text{
+		display: inline-block;
+		width: 0.35rem;
+		height: 0.25rem;
+		background: url('../images/msg_icon.png') no-repeat;
+		background-size: 70%;
+		background-position: 0 0;
+		position: relative;
+		i{
+			display: inline-block;
+			padding:0 0.05rem;
+			background-color:#FF4141;
+			font-size: 0.11rem;
+			border-radius:  20%;
+			color: #fff;
+			position: absolute;
+			top:0;
+			right: 0;
+		}
+	}
+}
+//搜索标题，左侧带后退按钮，右侧带自定义按钮
+.goodsInput{
+	.is-left,.is-right{
+		flex:0;
+		width: 10%;
+	}
+	.mint-header-title{
+		margin: 0 @marginbottom010;
+		width: 80%;
+		background-color: #f5f5f5;
+		.mint-header-input{
+			width: 85%;
+			height: 0.3rem;
+			border:0 solid #f5f5f5;
+			padding: 0 0 0 15%;
+			background: url('../images/search_icon.png') no-repeat;
+			background-size: 5%;
+			background-position:0.15rem 0.07rem;
+		}
+	}
+	.mint-button-text{
+		display: inline-block;
+		width: 0.35rem;
+		height: 0.25rem;
+		background: url('../images/style_state1.png') no-repeat;
+		background-size: 50%;
+		background-position: 0.08rem 0.05rem;
+	}
+	.mint-button-text.styleState2{
+		background: url('../images/style_state2.png') no-repeat;
+		background-size: 50%;
+		background-position: 0.08rem 0.05rem;
+	}
+}
+//选项标题，左侧带后退按钮，右侧带自定义按钮
+.navbarHeader{
+	.mint-navbar {
+		.mint-tab-item{
+			padding: 0;
+			color: #666;
+		}
+		.is-selected{
+			color: @themeColor;
+		}	
+	}
+	.is-right{
+		button:nth-child(1){
+			margin-right: 0.25rem;
+		}
+		label{
+			width: 0.2rem;
+			height: 0.2rem;
+			display: inline-block;
+		}
+		.goods_home{
+			background: url('../images/goods/goods_home.png') no-repeat;
+			background-size: 0.2rem;
+		}
+		.goods_Share{
+			background: url('../images/goods/goods_Share.png') no-repeat 100%;
+			background-size: 0.2rem;
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,200 @@
+@import '../../libs/commnd.less';
+.package{
+	width: 100%;
+	font-size: .14rem;
+	color: @textColor;
+	.header{
+      width: 90%; 
+      height: 0.45rem;
+      line-height: 0.45rem;
+      font-size: @threeFontSize;
+      padding: 0 5%;
+      text-align: right;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: #fff;
+      border-bottom: 1px solid @segmentingLin;
+      z-index: 100;
+      em{
+      	display: inline-block;
+      	width: .2rem;
+      	height: .17rem;
+      	background: url('../images/goods/goods_shopcar@2x.png') no-repeat;
+      	background-size: 100%;
+      	vertical-align: middle;
+      	margin-bottom: .06rem;
+      }
+      .goback{
+        display: inline-block;
+        width: .1rem;
+        height: .1rem;
+        border-style: solid;
+        border-color: #333;
+        border-width: 1px 1px 0 0;
+        transform: matrix(-.71,.71,.71,.71,0,0);
+        float: left;
+        margin-top: .15rem;
+      }
+      .titleName{
+        display: inline-block;
+        width: 85%;
+        text-align: center;
+        font-size: .17rem;
+      }
+	}
+	.packages{
+		margin-top: .45rem;
+		.package{
+			padding: @padding010 @padding015;
+			margin-bottom: @marginbottom010;
+			background-color: #fff;
+			width: inherit;
+			.packageName{
+				padding-bottom: @padding010;
+				padding-right: .35rem;
+				border-bottom:1px solid @segmentingLin;
+				position: relative;
+				text-align: left;
+				em{
+					display: inline-block;
+					border:1px solid @tagging;
+					color: @tagging;
+					margin-right: .05rem;
+					padding: 0 .02rem;
+				}
+				i{
+					font-weight: bold;
+				}
+				span{
+					color: @tagging;
+					float: right;
+					margin-top: .02rem;
+					display: inline-block;
+				}
+				&::after{
+					content: '';
+					display: inline-block;
+					width: .07rem;
+					height: .07rem;
+					border-style: solid;
+					border-width: 1px 1px 0 0;
+					border-color: @rightArrow;
+					position: absolute;
+					top: 15%;
+					right: 5%;
+					transform: matrix(.71,.71,.71,-.71,0,0);
+				}
+				&.onclick{
+					&::after{
+						transform: matrix(.71,-.71,.71,.71,0,0);
+						top: 25%;
+					}
+				}
+			}
+			.packageImg{
+				text-align: left;
+				margin-top: .1rem;
+				.packageImg_p{
+					display: inline-block;
+					img{
+						width: .65rem;
+						height: .65rem;
+						margin-right: @marginbottom010;
+						vertical-align: middle;
+					}
+					em{
+						font-size: .16rem;
+						margin-right: .1rem;
+					}
+				}
+			}
+			.packageGoods{
+				display: none;
+				.packageGood{
+					border-bottom: 1px solid @segmentingLin;
+					padding: .1rem 0;
+					text-align: left;
+					.packageGood_img{
+						display: inline-block;
+						position: relative;
+						width: .65rem;
+						height: .65rem;
+						vertical-align: top;
+						img{
+							width: .65rem;
+							height: .65rem;
+						}
+						.mask{
+							position: absolute;
+							top: 0;
+							left: 0;
+							width: .65rem;
+							height: .65rem;
+							background-color: #000;
+							opacity: 0.8;
+							text-align: center;
+							line-height: .65rem;
+							color: #fff;
+						}
+					}
+					.packageGood_data{
+						height: .65rem;
+						display: inline-block;
+						position: relative;
+						p{
+							text-align: left;
+						}
+						p:nth-child(1){
+							font-size: .14rem;
+						}
+						p:nth-child(2){
+							color: @auxiliaryFont;
+							font-size: .12rem;
+						}
+						p:nth-child(3){
+							color: @tagging;
+							position: absolute;
+							bottom: 0;
+							left: 0;
+						}
+					}
+				}
+				.packageGoods_button{
+					display: flex;
+					display: -webkit-flex;
+					justify-content: space-around;
+					padding: .1rem 0;
+					.el-input-number{
+						width: .9rem;
+						margin-top: .05rem;
+					}
+					button{
+						width: 30%;
+						display:inline-block;
+						text-align: center;
+						background-color: @themeColor;
+						color: #fff;
+						border:0px solid #ddd;
+						padding: .1rem 0;
+						border-radius: .02rem;
+						&:nth-child(2){
+							background-color: #000;
+						}
+						&.disabled{
+							background-color: #ddd;
+						}
+					}
+				}
+			}
+		}
+		.packageshow{
+			.packageImg{
+				display: none;
+			}
+			.packageGoods{
+				display: block;
+			}
+		}
+	}
+}

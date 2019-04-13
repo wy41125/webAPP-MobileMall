@@ -1,0 +1,121 @@
+.collection{
+    width: 100%;
+    height: 100%;
+    font-size: 0.12rem;
+    .nodata{
+      text-align: center;
+      position: fixed;
+      top: 35%;
+      left: 0;
+      width: 100%;
+      font-size: .13rem;
+      color: #989898;
+      img{
+        display: inline-block;
+        width: 0.95rem;
+        height: 0.85rem;
+        margin-bottom: .08rem;
+      }
+    }
+    .goods{
+      width: 100%;
+      height: 100%;
+      ul{
+        width: 100%;
+        li{
+          width: 100%;
+          height: 1rem;
+          background-color: #fff;
+          padding-bottom: 0.1rem;
+          border-bottom: 1px solid #ececec;
+          .singleGood{
+            width: 90%;
+            height: 90%;
+            padding: 0.1rem 0.15rem;
+            .goodImg,.gooddata{
+              display: inline-block;
+              vertical-align: middle;
+            }
+            .goodImg{
+              width: 25%;
+              height: 100%;
+              position: relative;
+              img{
+                width: 100%;
+                height: 100%;
+              }
+              .plesaleGood{
+                display: inline-block;
+                width: 100%;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                color: #fff;
+                background-color: #F04748;
+                opacity: .8;
+                &.nohave{
+                  background-color: #828181;
+                  opacity: .8;
+                }
+              }
+            }
+            .gooddata{
+              width: 72%;
+              height: 100%;
+              text-align: left;
+              font-size: 0.14rem;
+              .goodTitle{
+                height: 0.32rem;
+                margin-bottom: 0.1rem;
+              }
+              .highlight{
+                color: #de302d;
+              }
+              .auxiliary{
+                color: #888;
+                span:nth-child(3){
+                  float: right;
+                  i{
+                    width: 0.14rem;
+                    height: 0.14rem;
+                    display: inline-block;
+                    background: url('../images/my/coupons/address_delete@2x.png') no-repeat;
+                    background-size: 0.14rem;
+                    vertical-align: sub;
+                  }
+                }
+              }
+            }
+          }
+        }
+        .loading{
+          width: 100%;
+          height: 0.4rem;
+          line-height: 0.4rem;
+          font-size: 0.15rem;
+          background-color: transparent;
+          border-width: 0px;
+          position: fixed;
+          top: 50%;
+          left: 0%;
+        }
+        .botton{
+          width: 100%;
+          height: 0.4rem;
+          line-height: 0.4rem;
+          font-size: 0.15rem;
+          border-width: 0px;
+          background-color: transparent;
+          span{
+            display: inline-block;
+            margin: 0 0.1rem;
+          }
+          hr{
+            display: inline-block;
+            width: 20%;
+            vertical-align: middle;
+          }
+        }
+      }
+    }
+}

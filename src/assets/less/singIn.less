@@ -1,0 +1,114 @@
+@import '../../libs/commnd.less';
+.singIn{
+	font-size: @fiveFontSize;
+	width: 100%;
+	height: 100%;
+	.tongyiSingIn{
+		width: 70%;
+		overflow: hidden;
+		margin: 1.4rem auto 0;
+		p{
+			width: 100%;
+			font-size:@threeFontSize;
+			margin-bottom: 0.2rem;
+			border-bottom: 1px solid #ececec;
+			position: relative;
+			input{
+				width: 100%;
+				padding: @padding015 0;
+				background-color: transparent;
+				font-size: @threeFontSize;
+			}
+			button{
+				width: 70%;
+				padding: @padding010 0;
+				background-color: transparent;
+				font-size: @twoFontSize;
+				border:1px solid @themeColor;
+				color: @themeColor;
+				border-radius: @borderRagin;
+				&.noClick{
+					background-color: #ddd;
+					border:1px solid #ddd;
+					color: #fff;
+				}
+				&.onclick{
+					background-color: @themeColor;
+					border:1px solid @themeColor;
+					color: #fff;
+				}
+			}
+			.close{
+				display: inline-block;
+				width: 0.13rem;
+				height: 0.13rem;
+				background: url('../images/close@2x.png') no-repeat;
+				background-size: 0.13rem;
+				position: absolute;
+				top: 33%;
+				right: 5%;
+			}
+			&:nth-child(2){
+				input{
+					width: 60%;
+				}
+				span{
+					display: inline-block;
+					width: 38%;
+					color: @themeColor;
+				}
+				.close{
+					right: 35%;
+				}
+			}
+			
+		}
+		.noborderButton{
+			border-bottom: 1px solid transparent;
+		}
+	}
+	.Register{
+		span{
+			color: #5D85F7;
+		}
+	}
+	.setupParss{
+		.parssword2{
+			.parssword2input{
+				width: 100%;
+			}
+			.close{
+				position: absolute;
+				top: 33%;
+				right: 5%;
+			}
+		}
+	}
+	header{
+		background-color: @oneBackgroundColor;
+		color: #000;
+		h1{
+			font-size: @twoFontSize;
+		}
+		.is-left{
+			i{
+				display: inline-block;
+				width: 0.2rem;
+				height: 0.2rem;
+				background: url('../images/land/login_close@2x.png') no-repeat;
+				background-size: 0.2rem;
+			}
+		}
+	}
+	.payEnv{
+		width: 100%;
+		text-align: center;
+		span{
+			width: 0.4rem;
+			display: inline-block;
+			height: 0.45rem;
+			background:url('') no-repeat;
+			background-size: 0.45rem; 
+		}
+	}
+}

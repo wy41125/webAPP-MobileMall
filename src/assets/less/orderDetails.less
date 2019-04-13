@@ -1,0 +1,237 @@
+.order{
+	.order_title{
+		span{
+			float: right;
+			display: inline-block;
+			padding-left: .2rem;
+			background: url('../images/order/service@2x.png') no-repeat;
+			background-size: .16rem .16rem;
+			background-position: 0 1px;
+			font-size: .12rem;
+		}
+	}
+}
+.orderState{
+	background-color: #626775;
+	color: #fff;
+	padding:.2rem 0;
+	.img{
+		i{
+			display: inline-block;
+			width: .22rem;
+			height: .26rem;
+			background: url('../images/order/order@2x.png') no-repeat;
+			background-size: .22rem .26rem;
+		}
+	}
+}
+.OrderTracking{
+	margin-top: .08rem;
+	padding: .15rem;
+	position: relative;
+	text-align: left;
+	background: #fff;
+	i{
+		display: inline-block;
+		width: .19rem;
+		height: .16rem;
+		background: url(../images/order/Ordertracking@2x.png) no-repeat;
+		background-size: 100%;
+		margin-right: .08rem;
+		vertical-align: middle;
+	}
+	span{
+		font-size: .13rem;
+		color: #666;
+	}
+	&::after{
+		content: '';
+		display: inline-block;
+		width: .06rem;
+		height: .06rem;
+		border-width: 1px 1px 0 0;
+		border-style: solid;
+		border-color: #666;
+		transform: matrix(.71,.71,-.71,.71,0,0);
+		position: absolute;
+		top: 40%;
+		right: 5%;
+	}
+}
+.orderLogistics{
+	padding: .15rem .2rem;
+	margin: .05rem 0;
+	background: #fff;
+	border-top: 1px solid #ececec;
+	ul{
+		width: 100%;
+		color: @auxiliaryFont;
+		text-align: left;
+		li{
+			font-size: .13rem;
+			color: #666;
+		}
+	}
+}
+.barcode{
+	background: #fff;
+	padding: .1rem .15rem;
+	border-top: 1px dashed #DFDFDF;
+}
+.confirmationOrder{
+	.other{
+		font-size: .13rem;
+		color: #666;
+		margin-bottom: .7rem;
+		.other_p{
+			font-size: .13rem;
+			color: #666;
+			margin-bottom: 0;
+			border-bottom: 1px solid #ececec;
+			&::after{
+				content:none;
+			}
+		}
+	}
+	.footer_botton{
+		width: 94%;
+		padding: .05rem 3%;
+		text-align: left;
+		.maney{
+			display: inline-block;
+			width: 40%;
+			padding:0;
+
+			span{
+				float: none;
+				background: transparent;
+				width: 100%;
+				text-align: left;
+				line-height: normal;
+				display: block;
+				color: #000;
+
+			}
+		}
+		.button{
+			float: right;
+			display: inline-block;
+			width: 20%;
+			padding:.05rem .1rem;
+			border:1px solid #999;
+			line-height: normal;
+			background: transparent;
+			color: #333;
+			border-radius: @borderRagin;
+			margin-right: .05rem;
+			margin-top: 3%;
+		}
+		.solid{
+			background: @themeColor;
+			border:1px solid @themeColor;
+			color: #fff;
+		}
+	}
+}
+/*预售订单信息样式*/
+.preSale{
+	margin-top: .05rem;
+	background: #fff;
+	text-align: left;
+	color:#666;
+	margin-bottom: .65rem;
+	font-size: .13rem;
+	.title{
+		padding: .15rem;
+		font-size: .12rem;
+		border-bottom: 1px solid #ececec;
+	}
+	.stageDiv{
+		padding: .15rem;
+		padding-bottom: 0;
+		.stage{
+			.stageOne{
+				position: relative;
+				padding-left:.1rem; 
+				.icon_em{
+					display: inline-block;
+					width: .1rem;
+					height: .1rem;
+					background-color: #E8E8E8;
+					border-radius: .1rem;
+					margin-right:.09rem;
+					position: absolute;
+					top: 30%;
+					left: -.04rem;
+				}
+				span{
+					float: right;
+				}
+			}
+			&.selectStage{
+				.stageOne{
+					position: relative;
+					.icon_em{
+						display: inline-block;
+						width: .1rem;
+						height: .1rem;
+						background-color: #E8E8E8;
+						border-radius: .1rem;
+						margin-right:.09rem;
+						position: absolute;
+						top: 30%;
+						left: -.04rem;
+						.icon_b{
+							display: inline-block;
+							width: .1rem;
+							height: .1rem;
+							background-color: #E12E2E;
+							opacity: .3;
+							border-radius: .1rem;
+							position: absolute;
+							top: 0;
+							left: 0;
+						}
+						.icon_i{
+							margin: 0;
+							display: inline-block;
+							width: .06rem;
+							height: .06rem;
+							background-color: #E12E2E;
+							border-radius: .06rem;
+							position: absolute;
+							top: 2px;
+							left: 2px;
+						}
+					}
+					span{
+						float: right;
+					}
+				}
+			}
+		}
+		.stageTwo{
+			font-size: .12rem;
+			padding: 0 0 .15rem 0;
+			border-left: 1px solid #ececec;
+			text-align: right;
+			padding-left:.1rem;
+			em{
+				float: left;
+			}
+		}
+	}
+	.div_stage_p{
+		border-top: 1px solid #ececec;
+		padding:.15rem;
+		.stage_p{
+			text-align: right;
+		}
+	}
+}
+
+
+
+
+
+

@@ -1,0 +1,317 @@
+@import '../../libs/commnd.less';
+.footerButton{
+	font-size: @threeFontSize;
+		width: 100%;
+		height: 0.5rem;
+		bottom:0;
+		position: fixed;
+		background-color: @oneBackgroundColor;
+		display: flex;
+		display: -webkit-flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		border-top: 1px solid @segmentingLin;
+		span{
+			width: 16.6%;
+			height: 0.4rem;
+			border: 0px solid transparent;
+			text-align: center;
+			padding-top: 0.05rem;
+			position: relative; 
+			text-align: center;
+			i{
+				display: inline-block;
+				width: 0.18rem;
+				height: 0.18rem;
+				background:url('../images/goods/goods_collection@2x.png') no-repeat;
+				background-size: 0.18rem;
+				display: block;
+				margin: 0 auto;
+				margin-top: .03rem;
+				&.active{
+					background:url('../images/goods/goods_collection_black@2x.png') no-repeat;
+					background-size: 0.18rem;
+				}
+			}
+			.icon{
+				position: absolute;
+				font-size: .12rem;
+				top: 2px;
+				right: 10px;
+				display: inline-block;
+				width: .15rem;
+				height: .15rem;
+				border-radius: .15rem;
+				font-size: @fiveFontSize;
+				text-align: center;
+				line-height: .15rem;
+				color: #fff;
+				background: @tagging;
+			}
+			.service{
+				background:url('../images/goods/service@2x.png') no-repeat;
+				background-size: 0.18rem;
+			}
+			.shopcar{
+				background:url('../images/goods/goods_shopcar@2x.png') no-repeat;
+				background-size: 0.18rem;
+			}
+			&.wid245{
+				width: 25%;
+				color: #fff;
+			}
+			&:nth-child(4){
+				background-color: #3c3c3c;
+				padding-top: 0.15rem;
+			}
+			&:nth-child(5){
+				background-color: #CEA63F;
+				padding-top: 0.15rem;
+			}
+		}
+		.dhtz{
+			width: 50.2%;
+			height: 0.4rem;
+			border: 0px solid transparent;
+			text-align: center;
+			padding-top: 0.13rem;
+			color: #fff;
+		}
+	}
+.tanchuang{
+	font-size: .14rem;
+		width: 100%;
+		.tcTongyi{
+			width: 100%;
+			height:2.5rem;
+			background: #fff;
+			overflow: scroll;
+			position: relative;
+			p{
+				width: 100%;
+				height: @footerBotton;
+				line-height: @footerBotton;
+				text-align: center;
+				position: absolute;
+				font-size: @twoFontSize;
+				border-bottom: 1px solid @segmentingLin; 
+				top: 0;
+				left: 0;
+				i{
+					width: 0.2rem;
+					height: 0.2rem;
+					display: inline-block;
+					position: absolute;
+					top: 25%;
+					right: 5%;
+					background: url('../images/goods/product_box_close@2x.png') no-repeat;
+					background-size: 0.2rem;
+				}
+			}
+			ul{
+				margin-top: 0.5rem;
+				width: 100%;
+				li{
+					border-bottom: 1px solid @segmentingLin;
+					padding: @padding010 0 @padding010 @padding015;
+					font-size: @threeFontSize;
+					text-align: left;
+					color: #000;
+					position:relative;
+					i{
+						display: inline-block;
+						border: 1px solid #dd1413;
+						color: #dd1413;
+						margin-right: @padding010;
+					}
+					span{
+						color: #ddd;
+					}
+					&::after{
+						content: '';
+						display: inline-block;
+						width: 0.1rem;
+						height: 0.1rem;
+						border-style: solid;
+						border-width: 1px 1px 0 0;
+						border-color: @rightArrow;
+						position: absolute;
+						top: 35%;
+						right: 5%;
+						transform: matrix(.71,.71,-.71,.71,0,0);
+					}
+				}
+			}
+			.areas,.yes{
+				display: inline-block;
+				vertical-align: top;
+			}
+			.areas{
+				width: 75%;
+			}
+			.yes{
+				width: 20%;
+				padding-top: .1rem;
+			}
+		}
+		.VoucheCollar{
+			height:3.5rem;
+			.title{
+				border: none;
+			}
+			ul{
+				width: 90%;
+				padding: 0 5%;
+				li{
+					width: 100%;
+					height: 1rem;
+					background: url('../images/goods/background1@2x.png') no-repeat;
+					background-size: 100%;
+					margin-bottom: @marginbottom010;
+					padding: 0;
+					border: none;
+					&::after{
+						content: none;
+					}
+					.VoucheCollar_div{
+						width: 70%;
+						height: 100%;
+						color: #fff;
+						.plice{
+							height: 70%;
+							width: 100%;
+							color: #fff;
+							span{
+								display: inline-block;
+								width: 45%;
+								font-size: 0.16rem;
+								em{
+									font-size: 0.4rem;
+								}
+								&:nth-child(1){
+									margin: 0.1rem 0 0 0.1rem;
+								}
+							}
+						}
+						.time{
+							height: 30%;
+							width: 100%;
+							text-align: left;
+							padding-left: .1rem;
+						}
+					}
+				}
+				.have{
+					background: url('../images/goods/background2@2x.png') no-repeat;
+					background-size: 100%;
+				}
+				.nohave{
+					background: url('../images/goods/background3@2x.png') no-repeat;
+					background-size: 100%;
+				}
+			}
+		}
+		.huabei{
+			ul{
+				li{
+					span{
+						display: block;
+						color: @textColor;
+						&:nth-child(2){
+							color: @auxiliaryFont;
+						}
+					}
+					&::after{
+						content: none;
+					}
+				}
+			}
+		}
+		.guige{
+			width: 100%;
+			background: @oneBackgroundColor;
+			.goodTitle{
+				padding: @padding010 @padding015;
+				position: relative;
+				height: 1rem;
+				.goodImg{
+					width: 0.9rem;
+					height: 0.9rem;
+					padding: .15rem;
+					position: absolute;
+					display: inline-block;
+					top: -0.18rem;
+					left: 0.1rem;
+					background: #fff;
+					border:1px solid @segmentingLin;
+					img{
+						width: 100%;
+						height: 100%;
+						display: block;
+					}
+				}
+				.goodName{
+					margin-top: .35rem;
+					margin-left: 33%;
+					display: inline-block;
+					p{
+						text-align: left;
+						&:nth-child(1){
+							color: @tagging;
+							em{
+								font-size: @oneFontSize;
+							}
+						}
+					}
+				}
+			}
+			.goodgg{
+				padding: @padding010 @padding015;
+				.gg{
+					border-top: 1px solid @segmentingLin;
+					p{
+						text-align: left;
+						margin: 0.1rem 0;
+						&:nth-child(2){
+							span{
+								display: inline-block;
+								// width: 0.8rem;
+								padding: 0 .05rem;
+								height: 0.25rem;
+								text-align: center;
+								line-height: 0.25rem;
+								border:1px solid @segmentingLin;
+								color: #333;
+								border-radius: @borderRagin;
+								margin-right: 0.1rem;
+								margin-bottom: .05rem;
+								&.active{
+									color:@themeColor;
+								}
+							}
+						}
+					}
+				}
+			}
+			.goodNum{
+				text-align: right;
+				padding: @padding010 @padding015;
+				border-top: 1px solid @segmentingLin;
+				span{
+					float: left;
+				}
+			}
+			button{
+				width: 100%;
+				height: @footerBotton;
+				color: #fff;
+				font-size: @threeFontSize;
+				line-height: @footerBotton;
+				background: #000;
+				border:0px solid #ddd;
+				&.active{
+					background: @themeColor;
+				}
+			}
+		}
+	}

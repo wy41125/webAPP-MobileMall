@@ -1,0 +1,57 @@
+.customer{
+	width: 100%;
+	background-color: #fff;
+	text-align: left;
+	margin-bottom: .1rem;
+	.title{
+		padding: .1rem .15rem;
+		color: #959595;
+		span{
+			float: right;
+			color: @tagging;
+		}
+	}
+	.div_img{
+		padding: .1rem .15rem;
+		background-color: #F9F9F9;
+		img{
+			width: .56rem;
+			height: .56rem;
+			vertical-align: middle;
+		}
+		p{
+			display: inline-block;
+		}
+	}
+	.state{
+		padding: .1rem .15rem;
+		position: relative;
+		i{
+			display: inline-block;
+			width: .13rem ;
+			height:.13rem;
+			background:url('../../assets/images/my/suceess@2x.png') no-repeat;
+			background-size: .13rem;
+			vertical-align: middle;
+			margin-bottom: .03rem;
+			margin-right: .05rem;
+			&.bad{
+				background:url('../../assets/images/my/Refusedto@2x.png') no-repeat;
+				background-size: .13rem;
+			}
+		}
+		&::after{
+			content: '';
+			display: inline-block;
+			width: .07rem;
+			height: .07rem;
+			border-width: 1px 1px 0 0;
+			border-style: solid;
+			border-color: #999;
+			transform: matrix(.71,.71,-.71,.71,0,0);
+			position: absolute;
+			right: 5%;
+			top: 35%;
+		}
+	}
+}

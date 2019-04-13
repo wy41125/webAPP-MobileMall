@@ -1,0 +1,248 @@
+@import '../../libs/commnd.less';
+.goodsList{
+    font-size: @threeFontSize;
+    width: 100%;
+    height: 100%;
+    .navbar_div{
+        position: fixed;
+        top: 0.4rem;
+        left: 0;
+        width: 100%;
+        border-top: 1px solid @segmentingLin;
+        border-bottom: 1px solid @segmentingLin;
+        z-index: 1000;
+        .navbar{
+            width: 100%;
+            height: 0.37rem;
+            background: #fff;
+            span{
+                line-height: 0.37rem;
+                display: inline-block;
+                width: 24%;
+                font-size: @fourFontSize;
+                &.active{
+                    color:#d8c282;
+                }
+            }
+            .price{
+                position: relative;
+                .upper{
+                    position: absolute;
+                    width: 0;
+                    height: 0;
+                    border-top: 5px solid transparent;
+                    border-right: 5px solid transparent;
+                    border-left: 5px solid transparent;
+                    border-bottom: 5px solid @rightArrow;
+                    top:15%;
+                    right: 20%;
+                    &.active{
+                        border-bottom: 5px solid #d8c282;
+                    }
+                }
+                .lower{
+                    position: absolute;
+                    width: 0;
+                    height: 0;
+                    border-top: 5px solid @rightArrow;
+                    border-right: 5px solid transparent;
+                    border-left: 5px solid transparent;
+                    border-bottom: 5px solid transparent;
+                    bottom:25%;
+                    right: 20%;
+                    &.active{
+                        border-top: 5px solid #d8c282;
+                    }
+                }
+            }
+        }
+    }
+    .goods_div{
+        margin-top: 0.8rem;
+        .goods{
+            background: @oneBackgroundColor;
+            .singleGood{
+                padding: @padding010 @padding015;
+                border-top:1px solid @segmentingLin;
+                height: 1.3rem;
+                background: @oneBackgroundColor;
+                .goodImg{
+                    display: inline-block;
+                    width: 35%;
+                    height: 100%;
+                    position: relative;
+                    margin-right:5%; 
+                    img{
+                        width: 100%;
+                        height: 100%;
+                    }
+                    .position{
+                        position: absolute;
+                        padding: 0.05rem 0.05rem;
+                        font-size: 0.11rem;
+                        right: 0;
+                        top: 0;
+                        width: 0.41rem;
+                        height: 0.36rem;
+                        background: url(../images/home_label.png) no-repeat;
+                        background-size: 100%;
+                        color: #fff;
+                    }
+                    .preSaleIcon{
+                        display: inline-block;
+                        width: 100%;
+                        background: #e12e2e;
+                        opacity: .8;
+                        color: #fff;
+                        font-size: .13rem;
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        padding: .02rem 0;
+                        &.over{
+                            background: #ccc;
+                        }
+                    }
+                }
+                .gooddata{
+                    display: inline-block;
+                    width: 58%;
+                    height: 98%;
+                    vertical-align: top;
+                    text-align: left;
+                    padding-top: 2%;
+                    padding-bottom: 1%;
+                    position: relative;
+                    .pingjia{
+                        position: absolute;
+                        bottom: 10%;
+                        left: 0;
+                    }
+                    .goodTitle{
+                        margin-bottom:0.35rem;
+                        color: #000; 
+                        font-size: @threeFontSize;
+
+                    }
+                    .highlight{
+                        color: @tagging;
+                        font-size: 0.14rem;
+                        font-weight: bold;
+                    }
+                    .auxiliary{
+                        color: #999;
+                        font-size: .12rem;
+                        span{
+                            margin-right: 0.2rem;
+                        }
+                    }
+                }
+            }
+        }
+        &.bigImg{
+            text-align: left;
+            .goods{
+                background: #f3f3f3;
+                .singleGood{
+                    display: inline-block;
+                    width: 39%;
+                    padding: @padding010 5%;
+                    height: 2.65rem;
+                    background: @oneBackgroundColor;
+                    border:1px solid #f3f3f3;
+                    .goodImg{
+                        display: block;
+                        width: 100%;
+                        height: 65%;
+                        position: relative;
+                        margin-right:0%; 
+                        img{
+                            width: 100%;
+                            height: 100%;
+                        }
+                        .position{
+                            position: absolute;
+                            padding: 0.05rem 0.05rem;
+                            font-size: 0.11rem;
+                            right: -13%;
+                            top: -6%;
+                            width: 0.41rem;
+                            height: 0.36rem;
+                            background: url(../images/home_label.png) no-repeat;
+                            background-size: 100%;
+                            color: #fff;
+                            text-align: center;
+                        }
+                        .preSaleIcon{
+                            display: inline-block;
+                            width: 100%;
+                            height: .2rem;
+                            background: #e12e2e;
+                            opacity: .8;
+                            color: #fff;
+                            font-size: .13rem;
+                            position: absolute;
+                            bottom: 0;
+                            left: 0;
+                            text-align: center;
+                            padding: .02rem 0;
+                            &.over{
+                                background: #ccc;
+                            }
+                        }
+                    }
+                    .gooddata{
+                        display: inline-block;
+                        width: 100%;
+                        height: 35%;
+                        text-align: left;
+                        .goodTitle{
+                            margin-bottom:0rem;
+                            height: 0.35rem;
+                            color: #000; 
+                            font-size: 0.12rem;
+                            display: -webkit-box;
+                            -webkit-box-orient: vertical;
+                            -webkit-line-clamp: 3;
+                            overflow : hidden;
+                            text-overflow: ellipsis;
+                            display: -webkit-box;
+                            -webkit-line-clamp:2;
+                            -webkit-box-orient: vertical;
+                        }
+                        .highlight{
+                            color: @tagging;
+                            font-size: @threeFontSize;
+                        }
+                        .auxiliary{
+                            color: #999;
+                            font-size: .12rem;
+                            span{
+                                margin-right: 0.1rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }   
+}
+.footerLine{//底线
+      width: 100%;
+      height: @footerBotton;
+      line-height: @footerBotton;
+      text-align: center;
+      hr{
+        width: 25%;
+        display: inline-block;
+        vertical-align: middle;
+        color:#bcbcbc;
+        border-width: 0 0 0 0;
+        border-top: 1px solid #bcbcbc;
+      }
+      span{
+        display: inline-block;
+        padding: 0 0.1rem;
+        color:#bcbcbc;
+      }
+   }

@@ -1,0 +1,55 @@
+@import '../../libs/commnd.less';
+.customInput{
+    font-size: @threeFontSize;
+    width: 100%;
+    height: 100%;
+    background: @oneBackgroundColor;
+    .conentDiv{
+        // margin-top: 0.4rem;
+        .tongyi{
+            padding: @padding010 @padding015;
+            p{
+                text-align: left;
+                margin-bottom: @padding010;
+                color: #999;
+            }
+        }
+        .hot{
+            div{
+              text-align: left;
+              span{
+                display: inline-block;
+                border:1px solid @segmentingLin;
+                height: 0.3rem;
+                line-height: 0.3rem;
+                padding: 0 0.1rem;
+                border-radius: 0.3rem;
+                margin-bottom: .1rem;
+                margin-right: .08rem;
+              }
+            }
+        }
+        .histroy{
+            .titleP{
+                position: relative;
+                i{
+                    display: inline-block;
+                    width: 0.13rem;
+                    height: 0.14rem;
+                    background: url('../images/delete@2x.png') no-repeat;
+                    background-size: 100%;
+                    position: absolute;
+                    top: 35%;
+                    right: 5%;
+                }
+            }
+            .histroyConent{
+                p{
+                    border-bottom: 1px solid #f3f3f3;
+                    padding-bottom: 0.1rem;
+                    color: #333;
+                }
+            }
+        }
+    }
+  }

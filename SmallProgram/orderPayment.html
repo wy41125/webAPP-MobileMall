@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+	  <meta name="format-detection" content="telephone=no">
+    <meta name='apple-itunes-app' content='app-id=1238132485'>
+    <title>晶杰收银台</title>
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <meta name="description" content="晶杰之家(JINGJIE100.com)-专业手机零售O2O平台，正品手机、笔记本、平板电脑、智能硬件，正品行货，确保低价，配送及时！">
+    <meta name="Keywords" content="晶杰之家、晶杰、晶杰100、手机、品牌手机、正品手机、行货手机、手机报价">
+    <link href="./resources/css/orderPayment.css" rel="stylesheet" />
+    <script src="./resources/js/jquery.min.js"></script>
+    <script src="./resources/js/vue.min.js"></script>
+    <script src="./resources/js/md5.js"></script>
+  </head>
+  <body>
+    <div class="orderPayment" id="app"> 
+      <!-- <header>
+        <i></i>
+        <p>晶杰收银台</p>
+      </header> -->
+      <p class="prompt" :style="isShowTitle?'margin-top:.45rem':''">订单已经提交！请在<i>{{timeStr}}</i>内完成<em ></em>支付。</p>
+      <div class="order">
+        <p><span>订单编号</span>{{orderNo}}</p>
+        <p><span>下单时间</span>{{orderTime}}</p>
+        <p><span>待付金额</span>¥{{(orderPrice/100).toFixed(2)}}</p>
+      </div>
+      <div class="orderType">
+        <p>请选择支付方式</p>
+        <p @click.stop="switchType(3)"><i></i>支付宝<b :class="payType==3?'active':''"></b></p> 
+        <p @click.stop="switchType(2)"><i></i>微信支付<b :class="payType==2?'active':''"></b></p> 
+        <p @click.stop="switchType(5)" v-show="orderObj.stagingDto.isUseStaging!=1"><i></i><em v-if="huabeiStr.terminallyPay" v-text="huabeiStr.terminallyPay+'x'+huabeiStr.itemStagingNum+'期'"></em><b :class="payType==5?'active':''"></b></p>
+      </div>
+      <div class="footer_botton" @click.stop="pay()">
+        <span>立即付款</span>
+      </div>
+      <!-- 花呗弹窗 -->
+      <div class="tanchuang" v-show="tcShow">
+        <p class="title">花呗分期<i @click.stop="lookMone();return false;"></i></p>
+        <ul class="neirong">
+          <li v-for="(staging,index) in orderObj.stagingDto.stagingItemList" @click.stop="clickThisLI($event,staging,index)">
+            <i></i>
+            <p>
+              {{staging.terminallyPay}}x{{staging.itemStagingNum}}期<br>
+              <span v-text="staging.isStaging ==0?'免息，无服务费':'含利息'+staging.poundageCost+'/期'"></span>
+            </p>
+          </li>
+        </ul>
+        <button class="button" @click.stop="lookMone();return false;">确定</button>  
+      </div>
+
+      <div v-html="str"></div>
+
+      <div class="mask" v-if="!toOtherView || tcShow"></div>
+      <div class="tishi" v-if="!toOtherView">
+        <img class="tishi_one" src="./resources/images/tishi@2x.png" alt="">
+        <img class="tishi_two" src="./resources/images/anniu@2x.png" alt="" @click.stop="guanbi">
+      </div>
+    </div>
+    <script type="text/javascript">
+        var app = new Vue({
+            el:'#app',
+            data:{
+              timeStr:'',
+              orderId:null,//订单id
+              VUE2SESSID:null,//token值
+              orderNo:null,//订单编号
+              orderTime:null,//下单时间
+              orderPrice:null,//实付金额
+              orderObj:{//订单信息
+                stagingDto:{
+                  isUseStaging:1,
+                },
+              },
+              huabeiStr:{},//选择花呗之后显示的提示语（花呗几期）
+              tcShow:false,//弹窗是否显示
+              payType:3,//当前选择的支付方式
+              str:'',
+              appid:null,//微信应用id，微信浏览器支付使用
+              code:null,//微信支付
+              toOtherView:true,//
+              webType:null,//
+              shenyufenzhogn:null,//剩余几分钟
+              shenyufenzhogn2:null,//剩余几分钟2
+              count: '',//计时数字
+              timer: null,//计时器
+              isShowTitle:false,//页面标题是否显示
+              jsonObj:null,
+              httpStr:'http://m.dripop.com/',
+            },
+            created(){
+              var vm = this,urlStr='',urlDataArr = [];
+              vm.webType = vm.webview();
+              urlStr = window.location.href;
+              urlDataArr = urlStr.split('?')[1].split('&');
+              for(var i = 0;i < urlDataArr.length;i++){
+                if(urlDataArr[i].indexOf('orderId')>=0){
+                  vm.orderId = urlDataArr[i].split('=')[1];
+                }
+                if(urlDataArr[i].indexOf('VUE2SESSID')>=0){
+                  vm.VUE2SESSID = decodeURIComponent(urlDataArr[i].split('=')[1]);  
+                }
+              }
+              if(urlStr.indexOf('code')>=0){
+                vm.code = urlStr.split('?')[1].split('&')[0].split('=')[1];
+                vm.payType = 2;
+                vm.pay();
+              }else{
+                vm.ajaxPayinfo(vm.orderId);
+              }
+            },
+            methods:{
+              guanbi(){//指示浏览器打开弹窗关闭事件
+                this.toOtherView =true;
+              },
+              pay(){//支付
+                var vm =this,payModel=0;
+                if(!vm.payType){
+                  Toast('请选择支付方式！');
+                  return;
+                }else{
+                  payModel = vm.payType;
+                }
+                if(vm.webType == 'weixin' && payModel != 2){//在微信里面支付宝
+                  vm.toOtherView =false;
+                  return;
+                }else if(vm.webType == 'zhifupay' && payModel == 2){//在支付宝里面微信支付
+                  vm.toOtherView =false;
+                  return;
+                }
+                var data = {
+                  "orderId": vm.orderId,//(描述：订单id、类型：Long、是否必填：Y)
+                  "payModel": payModel,//(描述：支付方式 2 微信 3 支付宝 5 花呗分期、类型：Integer、是否必填：Y)
+                  "code":vm.code,
+                };
+                if(vm.huabeiStr.itemStagingNum){
+                  data.fqNum = vm.huabeiStr.itemStagingNum;
+                }
+                var urlStr = vm.getpost(data);
+                if(payModel == 2){//微信支付
+                  vm.weixin(data,urlStr)
+                }else{//支付宝支付
+                  vm.zhifubao(data,urlStr);
+                }
+              },
+              weixin(data,urlStr){
+                var vm =this;
+                if(vm.webType == 'weixin'){
+                  if(!vm.code){//没有code
+                    var reg = new RegExp('(^| )VUE2SESSID=([^;]*)(;|$)');
+                    arr = encodeURIComponent(document.cookie.match(reg));
+                    var urlStr='http://m.jingjie100.com/#/orderPayment?orderId='+vm.orderId+'&VUE2SESSID='+arr;
+                    window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+vm.appid+'&redirect_uri='+encodeURIComponent(urlStr)+'&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect';
+                  }else{//有code
+                    $.ajax({  
+                      url : vm.httpStr+"service/order/mwebPay"+urlStr,   //请求url  
+                      type : "POST",
+                      contentType:'application/json;charset=UTF-8',
+                      data : JSON.stringify(data),
+                      dataType : "json",
+                      success:function(response){
+                        if(response.status == 0){
+                          var obj = JSON.parse("{"+response.body.payInfo+"}");
+                          vm.jsonObj = obj;
+                          if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {//苹果手机上微信中微信支付
+                            WeixinJSBridge.invoke('getBrandWCPayRequest', obj, function(res) {
+                              if (res.err_msg == 'get_brand_wcpay_request:ok') {//支付成功或失败前台判断
+                                // that.$router.push({name:'paymentResults',query:{orderId:data.orderId,payModel:2,fqNum:'',fqSellerPercent:''}});
+                                window.location.href = vm.httpStr+'#/paymentResults?orderId='+data.orderId+'payModel=2&fqNum=&fqSellerPercent=';
+                              }else{
+                                window.history.go(-1);
+                              }
+                            });
+                          } else if (/(Android)/i.test(navigator.userAgent)) {
+                            if(typeof WeixinJSBridge == "undefined"){
+                              if(document.addEventListener){
+                                document.addEventListener('WeixinJSBridgeReady', vm.jsApiCall, false);
+                              }else if (document.attachEvent){
+                                document.attachEvent('WeixinJSBridgeReady', vm.jsApiCall);
+                                document.attachEvent('onWeixinJSBridgeReady', vm.jsApiCall);
+                              }                     
+                            }else{
+                              vm.jsApiCall();
+                            }
+                          } else {
+                            alert('请在手机上打开网址！');
+                          };
+                        }else{
+                          if(response.data.status == 499){
+                            // that.$router.push({name:'signInPage',query:{outLogin:'/'}});
+                            window.location.href = vm.httpStr+'#/signInPage?outLogin=/';
+                          }else{
+                            MessageBox('系统提示',response.data.message);
+                          }
+                        }
+                      }  
+                    });
+                  }
+                }else{//非微信浏览器
+                  $.ajax({
+                    url : vm.httpStr+"service/order/mwebPay"+urlStr,   //请求url  
+                    type : "POST",
+                    contentType:'application/json;charset=UTF-8',
+                    data : JSON.stringify(data),
+                    dataType : "json",
+                    success:function(response){
+                      if(response.status == 0){
+                        if(vm.webType == 'zhifupay'){//在支付宝浏览器
+                          
+                        }else{//非微信浏览器，可直接跳转支付宝支付
+                          window.location.href =response.body.mweb_url;
+                        }
+                      }else{
+                        if(response.status == 499){
+                          // vm.$router.push({name:'signInPage',query:{outLogin:'/'}});
+                          window.location.href = vm.httpStr+'#/signInPage?outLogin=/';
+                        }else{
+                          // MessageBox('系统提示',response.data.message);
+                        }
+                      }
+                    },
+                  });
+                }
+              },
+              jsApiCall(){
+                WeixinJSBridge.invoke('getBrandWCPayRequest', this.jsonObj, function(res) {
+                  if (res.err_msg == 'get_brand_wcpay_request:ok') {//支付成功或失败前台判断
+                    // that.$router.push({name:'paymentResults',query:{orderId:data.orderId,payModel:2,fqNum:'',fqSellerPercent:''}});
+                    window.location.href = that.httpStr+'#/paymentResults?orderId='+data.orderId+'payModel=2&fqNum=&fqSellerPercent=';
+                  }else{
+                    window.history.go(-1);
+                  }
+                });
+              },
+              zhifubao(data,urlStr){
+                var that =this;
+                $.ajax({  
+                  url : "http://m.dripop.com/service/order/mwebPay"+urlStr,   //请求url  
+                  type : "POST",
+                  contentType:'application/json;charset=UTF-8',
+                  data : JSON.stringify(data),
+                  dataType : "json",
+                  success:function(response){
+                    if(response.status == 0){
+                      if(that.webType == 'weixin'){//在微信浏览器中点击支付宝支付（指示使用别的浏览器）
+                        
+                      }else{//非微信浏览器，可直接跳转支付宝支付
+                        if(that.payType == 5){//花呗
+                          that.str = response.body.url.split('<script>')[0];
+                        }else{
+                          that.str = response.body.form.split('<script>')[0];
+                        }
+                        setTimeout(function(){
+                          document.forms[0].submit();
+                        },500);
+                      }
+                    }else{
+                      if(response.status == 499){
+                        // that.$router.push({name:'signInPage',query:{outLogin:'/'}});
+                        window.location.href = that.httpStr+'#/signInPage?outLogin=/';
+                      }else{
+                        // MessageBox('系统提示',response.data.message);
+                      }
+                    }
+                  }  
+                });
+              },
+              clickThisLI(e,obj,index){//花呗切换事件
+                var that =this;
+                if(e.srcElement.className.indexOf('activeli')>=0){}else{
+                  var cls = document.getElementsByClassName('activeli');
+                  if(cls[0]){
+                    cls[0].className = '';
+                    that.huabeiStr={};
+                  }
+                  e.currentTarget.className = 'activeli';
+                  that.huabeiStr=obj;
+                }
+              },
+              ajaxPayinfo(){//请求订单的基本信息
+                var vm =this,data = {"orderId":vm.orderId};
+                var urlStr = vm.getpost(data);
+                $.ajax({  
+                  url : "http://m.dripop.com/service/order/payInfo"+urlStr,   //请求url  
+                  type : "POST",
+                  contentType:'application/json;charset=UTF-8',
+                  data : JSON.stringify(data),
+                  dataType : "json",
+                  success:function(response){
+                    if(response.status == 0){
+                      vm.orderObj = response.body;
+                      console.log(vm.orderObj);
+                      vm.orderPrice = response.body.realPay;
+                      vm.orderTime = response.body.createTime;
+                      vm.orderNo = response.body.orderNo;
+                      vm.appid = response.body.appid;
+                      var timeArr = vm.orderTime.split(' ')[1].split(':'),nowTime = new Date();
+                      var fenzhong = ((nowTime.getHours()-timeArr[0])*60)+(nowTime.getMinutes()-timeArr[1]);
+                      vm.shenyufenzhogn = 120-fenzhong;
+                      if((window.location.href).indexOf('RemainingTime')>=0){//尾款支付
+                        var ar = (window.location.href).split('?')[1].split('&');
+                        for(var a =0 ;a <ar.length ;a++){
+                          if(ar[a].indexOf('RemainingTime')>=0){
+                            vm.TailMoneytimerFunc(ar[a].split('=')[1]);
+                          }
+                        }
+                      }else{
+                        vm.timerFunc(vm.shenyufenzhogn);
+                      }
+                    }else{
+                      if(response.status == 499){
+                        vm.isShowData=false;
+                        // vm.$router.push({name:'signInPage',query:{outLogin:'/'}});
+                        window.location.href = vm.httpStr+'#/signInPage?outLogin=/';
+                      }else{
+                        vm.isShowData=false;
+                        MessageBox('系统提示',response.message);
+                      }
+                    }
+                  }  
+                }); 
+              },
+              timerFunc(timeBig){//普通订单支付时间倒计时
+                var vm =this;
+                vm.count = timeBig*60;
+                vm.timer = setInterval(() => {
+                  if (vm.count > 0 && vm.count <= timeBig*60) {
+                    vm.count --;
+                    var yu = vm.count%60;
+                    var fen = (vm.count-yu)/60;
+                    if(fen>60){
+                      vm.timeStr = '1小时'+(fen-60)+'分钟'+yu+'秒';
+                    }else{
+                      vm.timeStr = fen+'分钟'+yu+'秒';
+                    }
+                    // vm.$store.commit('addPlaceOrderSurplusTime',vm.timeStr);
+                  } else {
+                    clearInterval(vm.timer);
+                    vm.timer = null;
+                  }
+                }, 1000)
+              },
+              TailMoneytimerFunc(timeBig){//尾款订单支付时间倒计时
+                var vm =this;
+                vm.count = timeBig;
+                vm.timer = setInterval(() => {
+                  if (vm.count > 0 && vm.count <= timeBig) {
+                    vm.count --;
+                    if(vm.count<60){//秒
+                        vm.timeStr = '0天0时0分钟'+vm.count+'秒';
+                    }else if(vm.count>=60 && vm.count<3600){//分
+                        vm.timeStr = '0天0时'+(vm.count-vm.count%60)/60+'分种'+vm.count%60+'秒';
+                    }else if(vm.count>=3600 && vm.count<86400){//时
+                        vm.timeStr = '0天'+(vm.count-vm.count%3600)/3600+'时'+(vm.count%3600-(vm.count%3600)%60)/60+'分钟'+(vm.count%3600)%60+'秒';
+                    }else if(vm.count>=86400){//天
+                        vm.timeStr = (vm.count-vm.count%86400)/86400+'天'+(vm.count%86400-(vm.count%86400)%3600)/3600+'时'+(((vm.count%86400)%3600)-((vm.count%86400)%3600)%60)/60+'分钟'+((vm.count%86400)%3600)%60+'秒';
+                    }
+                    // vm.$store.commit('addPlaceOrderSurplusTime',vm.timeStr);
+                  } else {
+                    clearInterval(vm.timer);
+                    vm.timer = null;
+                  }
+                }, 1000)
+              },
+              switchType(type){//切换支付方式
+                var vm =this;
+                if(type == 5){
+                  vm.payType = type;
+                  vm.tcShow=true;
+                }else{
+                  vm.payType = type;
+                }
+              },
+              lookMone(){//关闭弹窗
+                var vm =this;
+                if(!vm.huabeiStr.terminallyPay){
+                  Toast('请选择分期数！');
+                  return;
+                }
+                vm.tcShow=false;
+              },
+              webview(){//获取当前浏览器参数
+                var webStr = window.navigator.userAgent,webType='';
+                if (/MicroMessenger/.test(webStr)) { 
+                    webType='weixin'; 
+                } else if (/AlipayClient/.test(webStr)) { 
+                    webType='zhifupay'; 
+                } else if(/qq/.test(webStr)){
+                   webType='qq'; 
+                }else{
+                  webType='other';
+                }
+                return webType;
+              },
+              getpost(data) { //请求头部方法添加 
+                var timestamp = parseInt(new Date().getTime() / 1000),vm = this;
+                var arr, reg = new RegExp('(^| )VUE2SESSID=([^;]*)(;|$)');
+                // arr = document.cookie.match(reg);
+                // arr = vm.VUE2SESSID;
+                // var token = arr ? unescape(arr[2]) : '';
+                var token = vm.VUE2SESSID;
+                var sign_key = '2b03753ccc9d983702e448660f065369';
+                var sign = 'time' + timestamp + 'token' + token + JSON.stringify(data) + sign_key;
+                var aaa = $.md5(encodeURIComponent(sign.replace(/\s+/g, '')));
+                return '?token=' + token + '&time=' + timestamp + '&sign=' + aaa;
+              },
+            }
+        })
+    </script>
+  </body>
+</html>
+
+
+
+
+
+

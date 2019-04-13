@@ -1,0 +1,47 @@
+@import '../../libs/commnd.less';
+.paymentResults{
+	width: 100%;
+	height: 100%;
+	font-size: @threeFontSize;
+	color: @textColor;
+	.resultsIcon{
+		text-align: center;
+		color: @themeColor;
+		background: @oneBackgroundColor;
+		padding: 0.5rem 0;
+		margin-bottom: @marginbottom010;
+		img{
+			width: 0.4rem;
+			height: 0.4rem;
+			display: block;
+			margin: 0 auto;
+		}
+	}
+	.resultsXinxi{
+		background: @oneBackgroundColor;
+		padding: @padding010 @padding015;
+		font-size: @twoFontSize;
+		p{
+			text-align: left;
+			span{
+				display: inline-block;
+				width: 26%;
+			}
+			&:nth-child(4){
+				color: @tagging;
+				span{
+					color: @themeColor;
+				} 
+			}
+		}
+		button{
+			font-size: @twoFontSize;
+			text-align: center;
+			margin-top: 0.3rem;
+			border:1px solid @auxiliaryLine;
+			background: transparent;
+			padding: @padding010 @padding015;
+			border-radius: @borderRagin;
+		}
+	}
+}

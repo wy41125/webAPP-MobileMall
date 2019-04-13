@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+	  <meta name="format-detection" content="telephone=no">
+    <meta name='apple-itunes-app' content='app-id=1238132485'>
+    <title>商品详情</title>
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <meta name="description" content="晶杰之家(JINGJIE100.com)-专业手机零售O2O平台，正品手机、笔记本、平板电脑、智能硬件，正品行货，确保低价，配送及时！">
+    <meta name="Keywords" content="晶杰之家、晶杰、晶杰100、手机、品牌手机、正品手机、行货手机、手机报价">
+    <link href="./resources/css/goodDevele.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./resources/css/swiper-4.3.2.min.css">
+    <link rel="stylesheet" href="./resources/css/animate.min.css">
+    <script src="./resources/js/swiper.animate1.0.3.min.js"></script>
+    <script src="./resources/js/swiper-4.3.2.min.js"></script>
+    <script src="./resources/js/jquery.min.js"></script>
+    <script src="./resources/js/vue.min.js"></script>
+    <script src="./resources/js/md5.js"></script>
+    <style>
+      .swiper-container{
+        height: 250px;
+        width: 100%;
+      }
+      .swiper-slide{
+        height: 250px;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" class="goodsDevele">
+        <div class="selectTitle">
+          <i></i>
+          <p>
+            <span :class='mainSelect == 0?"active":""' @click.stop="mainSelectFunc('main',0)">商品</span>
+            <span :class='mainSelect == 1?"active":""' @click.stop="mainSelectFunc('main',1)">详情</span>
+            <span :class='mainSelect == 2?"active":""' @click.stop="mainSelectFunc('main',2)">评价</span>
+          </p>
+        </div>
+        <div class="mainContent">
+          <div v-show="mainSelect == 0" class="mainGood">
+            <!-- 轮播 -->
+            <div class="swiper-container">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">slider1</div>
+                <div class="swiper-slide">slider2</div>
+                <div class="swiper-slide">slider3</div>
+              </div>
+            </div>
+            <!-- 预售商品信息 -->  
+            <div v-if="goodsObject.goodsSellType && goodsObject.goodsSellType != 1" :class="(goodsObject.goodsSellType == 2 && goodsObject.depositDiscountAmount && goodsObject.depositDiscountAmount != '')?'appointmentManey':'appointmentManey bottomframe'" >
+              <span style="margin-left:.3rem;" class="maney" v-if="goodsObject.goodsSellType == 4 || goodsObject.goodsSellType == 3"><em>{{goodsObject.presellMoneyStr}}</em>
+              </span>
+              <span class="maney" style="float:left;margin-left:.15rem;" v-if="goodsObject.goodsSellType == 2"><i><em v-show="goodsObject.goodsSellType == 2">
+                定金</em></i> <span v-html="goodsObj.preSale.depositHtmlStr"></span>
+              </span>
+              <span class="twoline" v-if="goodsObject.goodsSellType == 2 && goodsObject.depositDiscountAmount && goodsObject.depositDiscountAmount != ''">
+                <em>定金可抵<br>  <em style="font-size:.15rem;">{{goodsObject.depositDiscountAmountStr}}</em></em>
+              </span>
+              <span v-show="goodsObject.goodsSellType && (goodsObject.goodsSellType==2 || goodsObject.goodsSellType==4) && goodsObj.preSale.Stage !=2" class="timer">
+                距预售<em v-text="goodsObj.preSale.Stage == 0?'开始':'结束'"></em>：<br><em v-html="goodsObj.preSale.coundownTimestr"></em>
+              </span>
+              <span v-show="goodsObject.goodsSellType && (goodsObject.goodsSellType==2 || goodsObject.goodsSellType==4) && goodsObj.preSale.Stage ==2" class="timer oneFont">预售已结束</span>
+              <span v-show="goodsObject.goodsSellType && goodsObject.goodsSellType==3" class="timer appointmenting">预约中</span>
+            </div>
+            <!-- 商品信息 -->
+            <div class="goodsCenent"> 
+              <p class="goodsName">{{goodsObject.goodsName}}</p>
+              <p class="goodsRemarks" style="color:#999;font-size:12px;" v-if="goodsObject.goodsSellType == 1">{{goodsObject.remark}}</p>
+              <p class="goodsPrice" v-if="goodsObject.goodsSellType == 1">¥ <span v-html="goodsObject.salePriceHtml"></span></p> 
+              <p class="goodsPromptone" v-if="goodsObject.goodsSellType != 1 && goodsObject.remark && goodsObject.remark !=''">{{goodsObject.remark}}</p><!-- 预售新增提示语 -->
+              <p class="goodsPromptTwo" v-if="goodsObject.goodsSellType == 3"><i>预约中</i>预约后请关注提醒，及时抢购哦～</p>
+            </div>
+            <!-- 促销、领券、分期、已选、库存 -->
+            <div class="thirdParty">
+              <!-- 预售新增流程 -->
+                <div class="tongyi" v-if="goodsObject.goodsSellType == 2" style="text-align:left;">
+                    <p class="tongyi_title" style="margin-top:.03rem;">总价</p>
+                    <div class="tongyi_conent">
+                      <p class="yusou_p" v-html="goodsObj.preSale.presellMoneyHtmlStr"></p>
+                    </div>
+                    <span class="tongyi_icon nodata"></span>
+                </div>
+                <!-- 预售新增流程 -->
+                <div class="tongyi" v-if="goodsObject.goodsSellType == 2" style="text-align:left;">
+                    <p class="tongyi_title">尾款</p>
+                    <div class="tongyi_conent">
+                      <p class="yusou_p">
+                        <span v-html="goodsObj.preSale.finalMoneyHtmlStr" style='border:0px solid #ddd;'></span> 
+                        <b v-show="goodsObject.finalMoneyAdd" style="font-size:.12rem;">{{goodsObject.finalMoneyAdd}}</b>
+                      </p>
+                    </div>
+                    <span class="tongyi_icon nodata"></span>
+                </div>
+                <div class="tongyi thirdParty_promotion" v-if="goodsObject.giftList && goodsObject.giftList.length != 0">
+                    <p class="tongyi_title">促销</p>
+                    <div class="tongyi_conent">
+                      <p v-for="gift in goodsObj.zengpinObj" :giftId="gift.giftId">
+                        <span style="padding:0 .02rem;">赠品</span>{{gift.goodsName}}（赠完即止）<i style="color:#999;">x{{gift.num}}</i>
+                      </p>
+                      <p v-if="goodsObject.giftList && goodsObject.giftList.length>2">...</p> 
+                    </div>
+                    <span class="tongyi_icon" @click.stop="lookMone(1)"></span>
+                </div>  
+                <div class="tongyi VoucheCollar" v-if="goodsObject.goodsSellType == 1 && goodsObject.cardList.length != 0">
+                    <p class="tongyi_title">领券</p>
+                    <div class="tongyi_conent">
+                      <span v-if="goodsObject.cardList[0].cardType == 1">
+                        <em v-text="goodsObject.cardList[0].minUsePrice==0?'无门槛':'满'+(goodsObject.cardList[0].minUsePrice/100)"></em>
+                        减{{(goodsObject.cardList[0].cardVal/100)}}
+                      </span>
+                      <span v-if="goodsObject.cardList[0].cardType != 1">
+                        <em v-text="goodsObject.cardList[0].minUsePrice==0?'无门槛':'满'+(goodsObject.cardList[0].minUsePrice/100)"></em> 
+                        享{{goodsObject.cardList[0].cardVal}}折
+                      </span>
+
+                    </div>
+                    <span class="tongyi_icon" @click.stop="lookMone(2)"></span>
+                </div>
+                <!-- 预售新增流程 -->
+                <div class="tongyi" v-if="goodsObject.goodsSellType != 1" style="text-align:left;">
+                    <p class="tongyi_title" style="margin-top:.02rem;">流程</p>
+                    <div class="tongyi_conent">
+                      <p class="yusou_p" v-if="goodsObject.goodsSellType == 3">1.预约——2.抢购——3.发货</p>
+                      <p class="yusou_p" v-if="goodsObject.goodsSellType == 4">1.付全款——2.发货</p>
+                      <p class="yusou_p" v-if="goodsObject.goodsSellType == 2">1.付定金——2.付尾款——3.发货</p>
+                      <i class="yusouIcon" @click.stop="lookMone(7)"></i>
+                    </div>
+                    <span class="tongyi_icon nodata"></span>
+                </div>
+                <div class="tongyi byStages" v-if="goodsObject.stagingInfo && goodsObject.stagingInfo.isUseStaging != 1">
+                    <p class="tongyi_title">分期</p>
+                    <div class="tongyi_conent">
+                      <i></i>
+                      <em v-text="$store.state.buyGood_huabei?$store.state.buyGood_huabei:goodsObject.stagingInfo.stagingDesc"></em>
+                    </div>
+                    <span class="tongyi_icon" @click.stop="lookMone(3)"></span>
+                </div>
+                <div class="tongyi selecedGoods" @click.stop="lookMone(5)">
+                    <p class="tongyi_title">已选</p>
+                    <div class="tongyi_conent">
+                        {{goodsObject.goodsName}}
+                    </div>
+                    <span class="tongyi_icon"></span>
+                </div>
+                <div class="tongyi Stock"  @click.stop="lookMone(7)" v-if="goodsObject.goodsSellType == 1">
+                    <p class="tongyi_title" style="float:left">库存</p>
+                    <div class="tongyi_conent"><i class="addIcon"></i>{{goodsObj.addStr}}</div>
+                    <span class="tongyi_icon">{{goodsObject.stock>0?'现货':'无货'}}</span>
+                </div>
+            </div>
+            <!-- 优惠套餐、热门配件、售后-->
+            <div class="tcpjsh" :style="(goodsObject.goodsReviewDto && goodsObject.goodsReviewDto.totalNum==0)?'margin-bottom: 0.7rem;':'margin-top:.05rem;'">
+              <div class="tongyi_div tcpjsh_tc" v-if="goodsObject.comboPackageList && goodsObject.comboPackageList.length != 0" @click.stop="savePackage(goodsObject.comboPackageList)">
+                <p class="tongyiTitle after"><span style="display: inline-block;margin-left: .08rem;">优惠套餐</span></p>
+              </div> 
+              <div class="tongyi_div tcpjsh_pj" v-if="goodsObject.recommendGoods && goodsObject.recommendGoods.length!=0" @click.stop="jumpRecommendGoods(goodsObject.recommendGoods)">
+                <p class="tongyiTitle after"><span style="display: inline-block;margin-left: .08rem;">热门配件</span></p>
+                <div class="parts" v-for="recommendGood in goodsObject.recommendGoods">
+                  <p><img :src="recommendGood.imgUrl" alt=""><span>{{recommendGood.typeName}}</span></p>
+                </div>
+              </div> 
+              <div class="support">
+                <span v-if="goodsObj.supportDelivery">支持送货上门</span><span v-if="goodsObj.supportSelfLifting">支持到店自提</span>  
+              </div>
+              <div class="customerService">
+                <p><b style="height:.18rem;"></b>7天包退<br><i>（已激活除外）</i></p>
+                <p><b></b>15天包换<br><i>（已激活除外）</i></p>
+                <p><b></b>优质售后<br><i>（在保修期内）</i></p>
+              </div>
+            </div>
+            <!-- 评论 -->
+            <div class="customerEvaluation" v-if="goodsObject.goodsReviewDto && goodsObject.goodsReviewDto.totalNum != 0">
+                <p class="evaluationTitle"><span>评价（{{goodsObject.goodsReviewDto.totalNum}}）</span><span @click.stop="mainSelectFunc('main',2)">好评度<i>{{goodsObject.goodsReviewDto.rateInt}}</i></span></p>
+                <div class="evaluation">
+                  <div v-for="custReviewDtos in goodsObject.goodsReviewDto.custReviewDtos">
+                    <div class="pelpo">
+                      <img :src="custReviewDtos.custHeadUrl" alt="" >
+                      <p>{{custReviewDtos.custName}}<br><i v-for="item in custReviewDtos.goodsStarLevel" class="active"></i><i v-for="star in (5-custReviewDtos.goodsStarLevel)"></i></p>
+                   </div>
+                   <div class="pelpoEvaluation">
+                      <p>{{custReviewDtos.content}}</p>
+                      <div class="EvaluationImg" v-if="custReviewDtos.pictureImgAddr && custReviewDtos.pictureImgAddr.length>0">
+                          <img v-for="img in custReviewDtos.pictureImgAddr" :src="img" alt="" @click.stop="viewPicture(img)">
+                      </div>  
+                      <p>购买时间：{{custReviewDtos.reviewTime}}</p>
+                      <p>购买规格：{{custReviewDtos.goodSpecs}}</p>
+                   </div>
+                  </div>
+                  <button class="buttonEvaluation" @click.stop="mainSelectFunc('main',2)">查看全部评价</button>
+                </div>
+            </div>
+          </div>
+          <div v-show="mainSelect == 1">
+            <div class="detailsTitle">
+              <span @click.stop="mainSelectFunc('imgT',0)" :class="ImageText.ImageTextType == 0?'active':''">图文详情</span>
+              <i></i>
+              <span @click.stop="mainSelectFunc('imgT',1)" :class="ImageText.ImageTextType == 1?'active':''">详情参数</span>
+              <i></i>
+              <span @click.stop="mainSelectFunc('imgT',2)" :class="ImageText.ImageTextType == 2?'active':''">售后保障</span>
+            </div>
+            <div class="detailsContent">
+              <div v-show="ImageText.ImageTextType == 0" v-html="ImageText.imageTextData"></div>
+              <div v-show="ImageText.ImageTextType == 1" class="parameter">
+                <div class="tabel">
+                  <table align='center' style="border-collapse:collapse;">
+                    <tr v-for="list in ImageText.parameterData.prodDetailList">
+                      <td>{{list.paramName}}</td>
+                      <td>{{list.goodsParamVal}}</td>
+                    </tr>
+                  </table>
+                  <table align='center' style="border-collapse:collapse;" class="noborderTop05" v-for="ParamList in ImageText.parameterData.detailParamList">
+                    <tr>
+                      <th colspan='2'>{{ParamList.channelName}}</th>
+                    </tr>
+                    <tr v-for="item in ParamList.goodsParamList">
+                      <td>{{item.paramName}}</td>
+                      <td>{{item.goodsParamVal}}</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+              <div v-show="ImageText.ImageTextType == 2" class="guarantee">
+                <div>
+                  <h4>包装售后</h4>
+                  <div v-html="ImageText.guaranteeData" style="border:0px solid #ddd;padding:0;"></div>
+                </div>
+                <div>
+                  <h4>正品行货</h4>
+                  <p>晶杰之家向您保证所售商品均为正品行货，并可开具正规发票。</p>
+                </div>
+                <div>
+                  <h4>售后保障</h4>
+                  <p>凡在晶杰之家购买的产品均可享受本王提供的优质售后服务。如因质量问题或故障，本产品享受“七天包退、十五天包换、三个月非人为损坏保修”等服务（注：因厂家在商品介绍中有售后保障的说明，则此商品按照厂家说明执行售后保障服务），附件产品按其产品规定保修细则执行，保修以购机单所注日期为准。</p>
+                </div>
+                <div>
+                  <h4>服务承诺</h4>
+                  <p>晶杰之家向您保证所售商品均为正品，与您亲临门店选购的商品享受相同的质量保证及更优的服务！本站为您提供具有竞争力的商品价格、服务保障和运费政策，请您放心购买！</p>
+                  <p>注：因厂家会在没有任何前提通知的情况下更改产品包装、产地或者一些附件，本网不能确保客户收到的货物与本网图片、产地、附件说明一致，只能确保为原厂正货！并且保证与当时市场上同样主流新品一致。若本网没有及时更新，请大家谅解！</p>
+                </div>
+                <div>
+                  <h4>权利声明</h4>
+                  <p>晶杰之家的所有商品信息是晶杰之家重要的经营资源，未经允许，禁止非法转载使用，商品促销信息以商品详情页“促销”栏中的信息为准；商品的具体售价以订单结算页价格为准；如您发现活动商品售价或促销信息有异常，建议购买前先联系导购资讯。</p>
+                  <p>售后服务电话：0571-88919300</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div v-show="mainSelect == 2">
+            <div class="titleEvaluate" :style="">
+              <p class="evaluationTitle">
+                <span>评价（{{comment.commentObj.allNumText}}）</span>
+                <span>好评度<i>{{comment.commentObj.hpLvText}}</i></span>
+              </p>
+              <div>
+                <span :class="!comment.level?'onClick':''" @click.stop="mainSelectFunc('eval',0)">全部{{comment.commentObj.allNumText}}</span>
+                <span :class="comment.level==1?'onClick':''" @click.stop="mainSelectFunc('eval',1)">好评{{comment.commentObj.hpNum}}</span>
+                <span :class="comment.level==2?'onClick':''" @click.stop="mainSelectFunc('eval',2)">中评{{comment.commentObj.zpNum}}</span>
+                <span :class="comment.level==3?'onClick':''" @click.stop="mainSelectFunc('eval',3)">差评{{comment.commentObj.cpNum}}</span>
+              </div>
+            </div>
+            <div class="evaluate_div">
+              <div class="customerEvaluation" v-for="(evaluate,index) in comment.evaluates" :style="index==comment.evaluates.length-1?'border-bottom: 0px solid #ececec;':''">
+                <div class="evaluation">
+                  <div class="pelpo">
+                    <img :src="evaluate.custHeadUrl" alt="">
+                    <p>{{evaluate.custName}} <br><i v-for="i in evaluate.goodsStarLevel" class="active"></i><i v-for="i in (5-evaluate.goodsStarLevel)"></i></p>
+                  </div>
+                  <div class="pelpoEvaluation"> 
+                    <p>{{evaluate.content}}</p>
+                    <div class="EvaluationImg">
+                      <img v-if="evaluate.pictureAdd.length>0" v-for="imgStr in evaluate.pictureAdd" :src="imgStr" @click.stop="viewPicture(imgStr)">
+                    </div>  
+                    <p>购买时间：{{evaluate.purchaseTime}}</p>
+                    <p>购买规格：{{evaluate.goodSpecs}}</p>
+                  </div>
+                </div>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer_div">
+          <div class="footerButton">
+            <span @click.stop="addCollection">
+              <i :class="iscolled == 1?'active':''"></i><em>收藏</em>
+            </span>
+            <span><a :href="'tel:'+CustomerServicePhone"><i class="service"></i><em>客服</em></a></span>
+            <span @click.stop="jumpShop"><i class="shopcar"></i><em>购物车</em><b v-show="footerObj.shopNum>0" class="icon">{{footerObj.shopNum}}</b></span>
+            <span class="wid245" v-if="goodsObject.stock > 0 && goodsObject.goodsSellType == 1" @click.stop="">加入购物车</span>
+            <span class="wid245" v-if="goodsObject.stock > 0 && goodsObject.goodsSellType == 1" @click.stop="">立即购买</span>
+            <span class="dhtz" v-if="goodsObject.stock <= 0 && goodsObject.goodsSellType == 1"  style="background:#6f9ac2;" @click.stop="">到货通知</span>
+            <!-- 预售底部按钮 -->
+            <span class="dhtz" v-if="goodsObject.goodsSellType == 2" :style="goodsObj.preSale.Stage == 1?'background:#CEA63F;':'background:#ccc'" @click.stop="PreSaleClick">支付定金</span>
+            <span class="dhtz" v-if="goodsObject.goodsSellType == 4" :style="goodsObj.preSale.Stage == 1?'background:#CEA63F;':'background:#ccc'" @click.stop="PreSaleClick">立即购买</span>
+            <span class="dhtz" v-if="goodsObject.goodsSellType == 3" :style="goodsObject.appointShow ==1?'background:#CEA63F;':'background:#ccc'" @click.stop="NoticeArrival" v-text="footerObj.goodsObj.appointShow ==1?'立即预约':'已预约'"></span>
+          </div>
+        </div>
+        <div class="tanchuang" >
+          <!-- 地区选择弹窗 -->
+          <div v-if="popupType == 6" class="tcTongyi">
+            <div class="areas">
+              <v-distpicker class="map"  :province="'请选择省'" type="mobile" @province="onChangeProvince" @city="onChangeCity" @area="onChangeArea"></v-distpicker>
+            </div>
+            <div class="yes" @click.stop="openDIzi">
+              确定
+            </div>
+          </div>
+          <!-- 促销弹窗 -->
+          <div v-show="popupType == 1" class="tcTongyi">
+              <p>促销<i @click.stop="lookMone(0)"></i></p>
+              <ul>
+                <li :class="gift.type!=1?'noclick':''" v-for="gift in goodsObject.giftList" v-if="gift.num!=0" @click.stop="jumpgood(gift.onlineId,gift.type)"><i>赠品</i>{{gift.goodsName}}（<em>赠完即止</em>）<span>x{{gift.num}}</span></li>
+              </ul>
+          </div>
+          <!-- 领券弹窗 -->
+          <div v-if="popupType == 2" class="tcTongyi VoucheCollar">
+              <p class="title">领券<i @click.stop="lookMone(0)"></i></p>
+              <ul>
+                <li v-for="card in goodsObject.cardList" v-if="card.cardStatus == 2&& card.cardRemainNum > 0" @click.stop="Coupons(card.cardId)">
+                  <div class="VoucheCollar_div">
+                    <div class="plice">
+                      <span><b v-text="card.cardType == 1?'¥':''"></b><em>{{card.cardType == 2?card.cardVal:card.cardValText}}</em><b v-text="card.cardType == 2?'折':''"></b></span>
+                      <span><em v-text="card.minUsePrice==0?'无门槛':'满'+(card.minUsePrice/100)+'元可用'"></em></span>
+                    </div>
+                    <div class="time">
+                      <span>{{card.name}}</span>
+                      <span>{{card.startTime}}-{{card.endTime}}</span> 
+                    </div>
+                  </div>
+                </li>
+                <li class="have" v-for="card in goodsObject.cardList" v-if="card.cardStatus == 1" @click.stop="jumpGoodLIst(card.cardId)">
+                  <div class="VoucheCollar_div">
+                    <div class="plice">
+                      <span><b v-text="card.cardType == 1?'¥':''"></b><em>{{card.cardType == 2?card.cardVal:card.cardValText}}</em><b v-text="card.cardType == 2?'折':''"></b></span>
+                      <span><em v-text="card.minUsePrice==0?'无门槛':'满'+(card.minUsePrice/100)+'元可用'"></em></span>
+                    </div>
+                    <div class="time">
+                      <span>{{card.name}}</span>
+                      <span>{{card.startTime}}-{{card.endTime}}</span> 
+                    </div>
+                  </div>
+                </li>
+                <li class="nohave" v-for="card in goodsObject.cardList" v-if="card.cardRemainNum <= 0" @click.stop="jumpGoodLIst(card.cardId)">
+                  <div class="VoucheCollar_div">
+                    <div class="plice">
+                      <span><b v-text="card.cardType == 1?'¥':''"></b><em>{{card.cardType == 2?card.cardVal:card.cardValText}}</em><b v-text="card.cardType == 2?'折':''"></b></span>
+                      <span><em v-text="card.minUsePrice==0?'无门槛':'满'+(card.minUsePrice/100)+'元可用'"></em></span>
+                    </div>
+                    <div class="time">
+                      <span>{{card.name}}</span>
+                      <span>{{card.startTime}}-{{card.endTime}}</span> 
+                    </div>
+                  </div>
+                </li>
+              </ul>
+          </div>
+          <!-- 花呗弹窗 -->
+          <div v-if="popupType == 3" class="tcTongyi huabei">
+              <p class="title">花呗分期<i @click.stop="lookMone(0)"></i></p>
+              <ul>
+                <li v-for="staging in goodsObject.stagingInfo.stagingItemList">
+                  <span>{{staging.terminallyPay}}x{{staging.itemStagingNum}}期</span>
+                  <span v-text="staging.isStaging ==0?'免息，无服务费':'含利息'+staging.poundageCost+'/期'">免息，无服务费</span>
+                </li>
+              </ul>
+          </div>
+          <!-- 预售说明 -->
+          <div v-if="popupType == 7 && goodsObject.goodsSellType != 1" class="tcTongyi yushou">
+              <p class="title">预售说明<i @click.stop="lookMone(0)"></i></p>
+              <div class="tiaogui">
+                <h4>预售规则：</h4>
+                <div v-for="item in goodsObject.presellExplainArr">{{item}}</div>
+              </div>
+          </div>
+          <!-- 商品规格弹窗 -->
+          <div v-if="popupType == 4 || popupType == 5" class="guige">
+            <div class="goodTitle">
+              <div class="goodImg"><img :src="goodsObject.imgUrl" alt=""></div>
+              <div class="goodName">
+                <p v-if="goodsObject.goodsSellType == 1">¥<span v-html="goodsObject.salePriceHtml"></span></p>
+                <p v-if="goodsObject.goodsSellType == 4 || goodsObject.goodsSellType == 3"><em v-text="goodsObject.presellMoneyStr?goodsObject.presellMoneyStr:'待发布'"></em></p>
+                <p v-if="goodsObject.goodsSellType == 2"><em v-text="goodsObject.presellMoneyStr?goodsObject.presellMoneyStr:'待发布'"></em></p>
+                <p>{{goodsObject.goodsName}}</p> 
+              </div>
+            </div>
+            <div class="goodgg">
+              <div class="gg" v-for="model in goodsObject.modelList">
+                <p>{{model.modelName}}</p>
+                <p><span v-for="Options in model.modelOptionsList" :class="(Options.flag&&Options.flag ==1)?'active':''" @click.stop="changeOnlineId(Options.onlineId)">{{Options.value}}</span></p>
+              </div>
+            </div>
+            <div class="goodNum">
+              <span>购买数量</span>
+              <!-- <el-input-number size="mini" v-model="DataNum" @change="handleChange" :min="1" label="描述文字"></el-input-number> -->
+            </div> 
+            <button v-if="popupType == 5 && goodsObject.stock > 0 && goodsObject.goodsSellType == 1"  @click.stop="addShopCard">加入购物车</button>
+            <button v-if="popupType == 4 && goodsObject.stock > 0 && goodsObject.goodsSellType == 1" class="active" @click.stop="buy(goodsObject,DataNum)">立即购买</button>
+            <button v-if="(popupType == 4 || popupType == 5) && goodsObject.stock <= 0 && goodsObject.goodsSellType == 1" style="background:#6F98C3;" @click.stop="NoticeArrival">到货通知</button>
+            <button v-if="(popupType == 4 || popupType == 5) && goodsObject.goodsSellType == 2" :style="goodsObj.preSale.Stage == 1?'background:#CEA63F;':'background:#ccc'" @click.stop="buy(goodsObject,DataNum)">支付定金</button>
+            <button v-if="(popupType == 4 || popupType == 5) && goodsObject.goodsSellType == 4" :style="goodsObj.preSale.Stage == 1?'background:#CEA63F;':'background:#ccc'" @click.stop="buy(goodsObject,DataNum)">立即购买</button>
+            <button v-if="(popupType == 4 || popupType == 5) && goodsObject.goodsSellType == 3" :style="goodsObject.appointShow ==1?'background:#CEA63F;':'background:#ccc'" @click.stop="NoticeArrival" v-text="goodsObject.appointShow ==1?'立即预约':'已预约'"></button>
+          </div>
+        </div>
+        
+    </div>
+    <div class="mask" style="display: none;" @click.stop="console.log(1);"></div> 
+    <script type="text/javascript">
+        var app=new Vue({
+            el:'#app',
+            data:{
+              goodsObject:{},//商品详情数据对象
+              modelId:null,//全部评论接口入参
+              mainSelect:0,//0商品，1详情，2评论
+              onlineId:'1000200002458',
+              popupType:0,//弹窗类型
+              iscolled:0,//是否收藏(0未收藏,1已收藏)
+              httpStr:'http://m.dripop.com/',
+              CustomerServicePhone:null,//客服电话
+              VUE2SESSID:null,//用户token
+              goodsObj:{//商品数据对象
+                supportDelivery:true,//支持送货上门
+                supportSelfLifting:true,//支持上门自提
+                addStr:null,//地址全拼
+                zengpinObj:[],//促销显示2件对象
+                preSale:{//预售数据封装对象
+                  Stage:null,//预售阶段（0预售未开始，1预售已开始，2预售结束）
+                  startTime:0,//预售未开始倒计时间长
+                  endTime:0,//预售结束倒计时间长
+                  StartCount: '',//预售未开始计时数字
+                  StartTimer: null,//预售未开始计时器
+                  EndCount:'',//预售结束计时数字
+                  EndTimer:null,//预售结束计时器
+                  coundownTimestr:'',//倒计时时间显示文字
+                  depositHtmlStr:'',//定金预售定金样式
+                  presellMoneyHtmlStr:'',//定金预售总价样式
+                  finalMoneyHtmlStr:'',//定金预售尾款样式
+                },
+              },
+              ImageText:{//图文详情对象
+                ImageTextType:0,
+                imageTextData:'',
+                parameterData:{},
+                guaranteeData:{},
+              },
+              footerObj:{//底部按钮数据对象
+                shopNum:null,//购物车数量
+                dataNum:Number,
+                goodsObj:Object,
+                DataNum:1,//数量选择框默认数量
+                clickTrue:false,
+                shoppingCardNum:null,
+                preSale:{//预售数据封装对象
+                  Stage:null,//预售阶段（0预售未开始，1预售已开始，2预售结束）
+                },
+              },
+              comment:{//全部评论数据对象
+                commentObj:{},//接口请求回的数据对象
+                evaluates:[],
+                level:0,//评论type
+                pageNo:1,//评论页数
+                nowData:0,//请求回的评论数量总数
+              }
+            },
+            created(){
+              this.ajaxTelephone();
+              this.obtainGoodFunc();
+              this.obtainVUE2SESSIDFunc();
+              console.log(this.popupType);
+            },
+            mounted(){
+              
+            },
+            methods:{
+              obtainGoodFunc(){//获取商品数据详情
+                var vm =this,data ={onlineId:vm.onlineId};
+                var urlStr = vm.getpost(data);
+                $.ajax({
+                  url : "http://m.dripop.com/service/goods/open/goodsdetail"+urlStr,
+                  type : "POST",
+                  contentType:'application/json;charset=UTF-8',
+                  data : JSON.stringify(data),
+                  dataType : "json",
+                  success:function(response){
+                    if(response.status == 0){
+                      vm.goodsObject = response.body;
+                      vm.modelId = response.body.modelId;
+                      if(vm.goodsObject.goodsReviewDto && vm.goodsObject.goodsReviewDto.custReviewDtos){
+                        for(var i in vm.goodsObject.goodsReviewDto.custReviewDtos){
+                          if(vm.goodsObject.goodsReviewDto.custReviewDtos[i].pictureAddr){//有值
+                            var str = vm.goodsObject.goodsReviewDto.custReviewDtos[i].pictureAddr;
+                            var arr = str.split(',');
+                            vm.goodsObject.goodsReviewDto.custReviewDtos[i]['pictureImgAddr']=arr;
+                          }
+                        }
+                      }
+                      if(vm.goodsObject.giftList.length>2){
+                        vm.goodsObj.zengpinObj = vm.goodsObject.giftList.slice(0,2);
+                      }else{
+                        vm.goodsObj.zengpinObj = vm.goodsObject.giftList;
+                      }
+                      vm.readShopNum();
+                      if(vm.goodsObject.isUsed != 0){
+                        document.title=vm.goodsObject.goodsName;
+                      }else{
+                        document.title="商品详情页";
+                      }
+                      if(vm.goodsObject.collectId && vmgoodsObject.collectId!=''){
+                        vm.iscolled = 1;
+                      }else{
+                        vm.iscolled = 0;
+                      }
+                      vm.DistinguishPreSale(vm.goodsObject);
+                      vm.moneyStyleFunc();
+                    }
+                  }
+                });
+              },
+              obtainCommentFunc(){//获取全部评论数据
+                var vm =this,data = {
+                  "modelId":vm.modelId,
+                  "level":vm.comment.level,   //  1：好评  2：中评 3： 差评  不传值：全部评论
+                  "pageNo":vm.comment.pageNo
+                };
+                var urlStr = vm.getpost(data);
+                $.ajax({
+                  url : "http://m.dripop.com/service/goods/open/allGoodsReview"+urlStr,
+                  type : "POST",
+                  contentType:'application/json;charset=UTF-8',
+                  data : JSON.stringify(data),
+                  dataType : "json",
+                  success:function(response){
+                    if(response.status == 0){
+                      vm.comment.commentObj = response.body;
+
+                      // vm.isLoading=false;
+                      // if(response.body.pagination.items.length == 0 && vm.pageNo==1){//第一次请求就没有数据
+                      //   vm.haveData = false;
+                      //   vm.ifNext =false;
+                      // }else if(response.body.pagination.items.length == 0 && vm.pageNo!=1){//非第一次请求没有数据
+                      //   vm.isloading = false;
+                      //   vm.isShowB = true;//显示底线
+                      //   vm.ifNext =false;
+                      // }else{
+                        for(var i = 0; i<response.body.pagination.items.length ;i++){
+                          vm.comment.evaluates.push(response.body.pagination.items[i]);
+                        }
+                        vm.comment.nowData += response.body.pagination.items.length;//当前为止请求的数据量
+                        if(vm.comment.nowData == response.body.pagination.total){
+                          // vm.isloading = false;
+                          // vm.ifNext =false;
+                          // vm.isShowB = true;//显示底线
+                        }else{
+                          // vm.isloading = true;
+                          // vm.ifNext =true;
+                          // vm.isShowB = false;//不显示底线
+                        }
+                        // vm.haveData = true;
+                        for(var i=0;i<vm.comment.evaluates.length;i++){
+                          if(vm.comment.evaluates[i].pictureAddr && vm.comment.evaluates[i].pictureAddr!=''){
+                            var pictureAdd = vm.comment.evaluates[i].pictureAddr.split(',');
+                            vm.comment.evaluates[i]['pictureAdd'] = pictureAdd;
+                          }
+                        }
+                      // }
+                    }else{
+                      MessageBox('系统提示',response.data.message);
+                    }
+                  }
+                });
+              },
+              obtainImageTextFunc(){//获取商品图文详情
+                var vm =this,data ={onlineId:vm.onlineId};
+                var urlStr = vm.getpost(data);
+                $.ajax({
+                  url : "http://m.dripop.com/service/goods/open/searchGoodsDescrip"+urlStr,
+                  type : "POST",
+                  contentType:'application/json;charset=UTF-8',
+                  data : JSON.stringify(data),
+                  dataType : "json",
+                  success:function(response){
+                    if(response.status == 0){
+                      vm.ImageText.imageTextData = response.body.description.replace(/<img/g, '<img style="width:100%;display:inherit;vertical-align: middle;"');
+                      vm.ImageText.parameterData = response.body.goodsParmsMap;
+                      vm.ImageText.guaranteeData = response.body.maintainDesction;
+                    }else{
+                      MessageBox('系统提示',oData.data.message);
+                    }
+                  }
+                });
+              },
+              DistinguishPreSale(goodObj){//预售商品页面显示数据处理
+                let vm = this;
+                if(goodObj.presellExplain && goodObj.presellExplain!=0){
+                  goodObj['presellExplainArr'] = goodObj.presellExplain.split('@');
+                }
+                if(goodObj.goodsSellType && (goodObj.goodsSellType==2 || goodObj.goodsSellType==4)){//是定金预售和全款预售
+                  let newTime = new Date().getTime();//当前时间戳
+                  if(goodObj.presellStartTimeL>newTime){//预售未开始
+                    if(goodObj.stock <= 0){
+                      vm.goodsObj.preSale.Stage = 2;
+                    }else{
+                      vm.goodsObj.preSale.Stage = 0;
+                    }
+                  }else{
+                    if(goodObj.presellEndTimeL>newTime){//预售已开始，未结束
+                      if(goodObj.stock <= 0){
+                        vm.goodsObj.preSale.Stage = 2;
+                      }else{
+                        vm.goodsObj.preSale.Stage = 1;
+                      }
+                    }else{//预售已结束
+                      vm.goodsObj.preSale.Stage = 2;
+                    }
+                  }
+                  if(vm.goodsObj.preSale.Stage == 0){
+                    vm.preSaleStartTimeCountdown();
+                  }else if(vm.goodsObj.preSale.Stage == 1){
+                    vm.preSaleEndTimeCountdown();
+                  }
+                }
+              },
+              readShopNum(){//获取本地购物车商品数量，数量显示在页面
+                if(localStorage.getItem("shoppingCard")){
+                  vm.footerObj.shopNum = localStorage.getItem("shoppingCard").split(',').length;
+                }
+              },
+              mainSelectFunc(type,num){//barnar切换
+                var vm = this;
+                if(type == 'main'){//主切换（商品、详情、评价）
+                  vm.mainSelect = num;
+                }else if(type == 'imgT'){//子详情切换（图文详情、详情参数、售后保障）
+                  vm.ImageText.ImageTextType =num;
+                }else if(type == 'eval'){//子评论切换（全部、好评、中评、差评）
+                  vm.comment.level =num;
+                  vm.comment.pageNo =1;
+                  vm.comment.evaluates=[];
+                  vm.obtainCommentFunc();
+                }
+                if(vm.mainSelect == 1){//详情
+                  vm.obtainImageTextFunc();
+                }else if(vm.mainSelect == 2){//评论
+                  vm.obtainCommentFunc();
+                }
+              },
+              preSaleStartTimeCountdown(){//预售未开始倒计时func
+                var vm =this;
+                vm.goodsObj.preSale.StartCount = vm.goodsObj.preSale.startTime;
+                vm.goodsObj.preSale.coundownTimestr = vm.timeTransformation(vm.goodsObj.preSale.StartCount,'**天**时**分**秒');
+                vm.goodsObj.preSale.StartTimer = setInterval(() => {
+                  if (vm.goodsObj.preSale.StartCount > 0 && vm.goodsObj.preSale.StartCount <= vm.goodsObj.preSale.startTime) {
+                    vm.goodsObj.preSale.StartCount --;
+                    vm.goodsObj.preSale.coundownTimestr = vm.timeTransformation(vm.goodsObj.preSale.StartCount,'**天**时**分**秒');
+                  } else {
+                    clearInterval(vm.goodsObj.preSale.StartTimer);
+                    vm.goodsObj.preSale.StartTimer = null;
+                    //预售未开始倒计时结束，开始预售结束倒计时
+                    vm.obtainGoodFunc(); //主动触发upup方法，'hehe'为向父组件传递的数据
+                    vm.goodsObj.preSale.Stage = 1;
+                    vm.preSaleEndTimeCountdown();
+                  }
+                }, 1000)
+              },
+              preSaleEndTimeCountdown(){//预售结束倒计时func
+                var vm =this;
+                vm.goodsObj.preSale.EndCount = vm.goodsObj.preSale.endTime;
+                vm.goodsObj.preSale.coundownTimestr = vm.timeTransformation(vm.goodsObj.preSale.EndCount,'**天**时**分**秒');
+                vm.goodsObj.preSale.EndTimer = setInterval(() => {
+                  if (vm.goodsObj.preSale.EndCount > 0 && vm.goodsObj.preSale.EndCount <= vm.goodsObj.preSale.endTime) {
+                    vm.goodsObj.preSale.EndCount --;
+                    vm.goodsObj.preSale.coundownTimestr = vm.timeTransformation(vm.goodsObj.preSale.EndCount,'**天**时**分**秒');
+                  } else {
+                    clearInterval(vm.goodsObj.preSale.EndTimer);
+                    vm.goodsObj.preSale.EndTimer = null;
+                    //预售结束倒计时结束，预售结束
+                    vm.goodsObj.preSale.Stage = 2;
+                  }
+                }, 1000) 
+              }, 
+              timeTransformation(second,str){//“秒”转换不同格式的时间字符串func（入参必须为秒，在秒的基础上转换）
+                  var timeStr = '',styleStr = 'style="display: inline-block;width: .18rem;height: .16rem;background: #563618;border-radius: .05rem;color: #fff;text-align: center;"';
+                  second = Number(second);
+                  var miao = '',fen = '',shi = '',tian = '';
+                  if(str.indexOf('秒') >= 0 || str.indexOf('分') >= 0 || str.indexOf('时') >= 0 || str.indexOf('天') >= 0){//转换为：**天**时**分**秒
+                      if(second<60){//秒
+                          miao = (((second%86400)%3600)%60)<10?'0'+((second%86400)%3600)%60:((second%86400)%3600)%60;
+                          timeStr = '00天<i '+styleStr+'>00</i>:<i '+styleStr+'>00</i>:<i '+styleStr+'>'+miao+'</i>';
+                      }else if(second>=60 && second<3600){//分
+                          fen = ((second-second%60)/60)<10?'0'+(second-second%60)/60:(second-second%60)/60;
+                          miao = (second%60)<10?'0'+second%60:second%60;
+                          timeStr = '00天<i '+styleStr+'>00</i>:<i '+styleStr+'>'+fen+'</i>:<i '+styleStr+'>'+miao+'</i>';
+                      }else if(second>=3600 && second<86400){//时
+                          shi = ((second-second%3600)/3600)<10?'0'+(second-second%3600)/3600:(second-second%3600)/3600;
+                          fen = ((second%3600-(second%3600)%60)/60)<10?'0'+(second%3600-(second%3600)%60)/60:(second%3600-(second%3600)%60)/60;
+                          miao = ((second%3600)%60)<10?'0'+(second%3600)%60:(second%3600)%60;
+                          timeStr = '00天<i '+styleStr+'>'+shi+'</i>:<i '+styleStr+'>'+fen+'</i>:<i '+styleStr+'>'+miao+'</i>';
+                      }else if(second>=86400){//天
+                          tian = ((second-second%86400)/86400)<10?'0'+(second-second%86400)/86400:(second-second%86400)/86400;
+                          shi = ((second%86400-(second%86400)%3600)/3600)<10?'0'+(second%86400-(second%86400)%3600)/3600:(second%86400-(second%86400)%3600)/3600;
+                          fen = ((((second%86400)%3600)-((second%86400)%3600)%60)/60)<10?'0'+(((second%86400)%3600)-((second%86400)%3600)%60)/60:(((second%86400)%3600)-((second%86400)%3600)%60)/60;
+                          miao = (((second%86400)%3600)%60)<10?'0'+((second%86400)%3600)%60:((second%86400)%3600)%60;
+                          timeStr = tian+'天<i '+styleStr+'>'+shi+'</i>:<i '+styleStr+'>'+fen+'</i>:<i '+styleStr+'>'+miao+'</i>';
+                      }
+                  }
+                  return timeStr;
+              },  
+              obtainVUE2SESSIDFunc(){//获取token
+                var vm = this,strcookie = document.cookie;//获取cookie字符串
+                var strcookieArr = strcookie.split('; ');
+                for(var i = 0;i<strcookieArr.length;i++){
+                  if(strcookieArr[i].split('=')[0].indexOf('VUE2SESSID')>=0){
+                    vm.VUE2SESSID = strcookieArr[i].split('=')[1];
+                  }
+                }
+                console.log(vm.VUE2SESSID);
+              },
+              getpost(data) { //请求头部方法添加 
+                var timestamp = parseInt(new Date().getTime() / 1000),vm = this;
+                var arr, reg = new RegExp('(^| )VUE2SESSID=([^;]*)(;|$)');
+                var token = vm.VUE2SESSID;
+                var sign_key = '2b03753ccc9d983702e448660f065369';
+                var sign = 'time' + timestamp + 'token' + token + JSON.stringify(data) + sign_key;
+                var aaa = $.md5(encodeURIComponent(sign.replace(/\s+/g, '')));
+                return '?token=' + token + '&time=' + timestamp + '&sign=' + aaa;
+              },
+              lookMone(type){//关闭弹窗
+                var vm = this;
+                if(type!=0){
+                  $('.mask').show();
+                  vm.popupType = type;//1(促销弹窗),2(领券弹窗),3(花呗弹窗),4(立即购买),5(加入购物车),7(地区选择弹窗)
+                }else{
+                  $('.mask').hide();
+                  vm.popupType = 0;
+                }
+              },
+              addCollection(){//收藏方法
+                var vm = this;
+                if(vm.iscolled == 1){
+                  vm.CancelCollection();
+                }else{
+                  vm.Collection();
+                }
+              },
+              Collection(){//收藏
+                let vm =this,data = {
+                  onlineId:vm.onlineId,
+                };
+                var urlStr = vm.getpost(data);
+                $.ajax({
+                  url : "http://m.dripop.com/service/collect/addCustCollect"+urlStr,
+                  type : "POST",
+                  contentType:'application/json;charset=UTF-8',
+                  data : JSON.stringify(data),
+                  dataType : "json",
+                  success:function(response){
+                    if(response.status == 0){
+                      vm.iscolled = 1;
+                    }else{
+                      if(response.status == 499){
+                        window.location.href = vm.httpStr+'#/signInPage?outLogin=/';
+                      }else{
+                        MessageBox('系统提示',response.data.message);
+                      }
+                    }
+                  }
+                });
+              },
+              CancelCollection(){//取消收藏
+                var vm =this,data = {
+                  onlineId:vm.onlineId,
+                };
+                var urlStr = vm.getpost(data);
+                $.ajax({
+                  url : "http://m.dripop.com/service/collect/delCustCollect"+urlStr,
+                  type : "POST",
+                  contentType:'application/json;charset=UTF-8',
+                  data : JSON.stringify(data),
+                  dataType : "json",
+                  success:function(response){
+                    if(response.status == 0){
+                      vm.iscolled = 0;
+                    }else{
+                      if(response.status == 499){
+                        window.location.href = vm.httpStr+'#/signInPage?outLogin=/';
+                      }else{
+                        MessageBox('系统提示',response.data.message);
+                      }
+                    }
+                  }
+                });
+              },
+              Coupons(cardId){//领券
+                var vm =this,data = {
+                  "cardId":cardId,      //优惠券id
+                };
+                var urlStr = vm.getpost(data);
+                $.ajax({
+                  url : "http://m.dripop.com/service/collect/receiveCard"+urlStr,
+                  type : "POST",
+                  contentType:'application/json;charset=UTF-8',
+                  data : JSON.stringify(data),
+                  dataType : "json",
+                  success:function(response){
+                    if(response.status == 0){
+                      vm.obtainGoodFunc();
+                      vm.lookMone(2);
+                    }else{
+                      if(response.status == 499){
+                        window.location.href = vm.httpStr+'#/signInPage?outLogin=/';
+                      }else{
+                        MessageBox('系统提示',response.data.message);
+                      }
+                    }
+                  }
+                });
+              },
+              jumpGoodLIst(id){//可用商品跳转商品列表页
+                window.location.href = vm.httpStr+'#/goodsList?cardid='+id;
+              },
+              ajaxTelephone(){//获取客服电话
+                var vm =this,data = {};
+                let urlStr = vm.getpost(data);
+                $.ajax({
+                  url : "http://m.dripop.com/service/open/getServerPhone"+urlStr,
+                  type : "POST",
+                  contentType:'application/json;charset=UTF-8',
+                  data : JSON.stringify(data),
+                  dataType : "json",
+                  success:function(response){
+                    if(response.status == 0){
+                      vm.CustomerServicePhone = response.body.val;
+                    }else{
+                      if(response.status == 499){
+                        window.location.href = vm.httpStr+'#/signInPage?outLogin=/';
+                      }else{
+                        MessageBox('系统提示',response.data.message);
+                      }
+                    }
+                  }
+                });
+              },
+              jumpShop(){//购物车跳转Func
+                window.location.href = vm.httpStr+'#/shoppingCart';
+              },
+              savePackage(arr){//跳转优惠套餐页面
+                var str = '';
+                for(let i in arr){
+                  if(i == arr.length-1){
+                    str += JSON.stringify(arr[i]);
+                  }else{
+                    str += JSON.stringify(arr[i])+'&&';
+                  }
+                }
+                window.sessionStorage.setItem('good_package',str);
+                // this.$router.push({name:'package'});
+                window.location.href = vm.httpStr+'#/package';
+              },
+              jumpRecommendGoods(arr){//跳转配件页面
+                var str = '';
+                for(let i in arr){
+                  if(i == arr.length-1){
+                    str += JSON.stringify(arr[i]);
+                  }else{
+                    str += JSON.stringify(arr[i])+'&&';
+                  }
+                }
+                window.sessionStorage.setItem('good_Recommend',str);
+                // this.$router.push({name:'recommended'});
+                window.location.href = vm.httpStr+'#/recommended';
+              },
+              viewPicture(imgStr){//评论放大图片，点击再次关闭
+                var docu=document.getElementsByTagName("body")[0];
+                var maskDiv=document.createElement("div");
+                maskDiv.setAttribute('class','maskDiv');
+                maskDiv.style.cssText = 'position: fixed;top: 0;left: 0;display: block;width: 100%;height: 100%;background: #000;opacity: 0.8;z-index: 1000000;';
+                var imgDiv = document.createElement("div");
+                imgDiv.setAttribute('class','imgDiv');
+                imgDiv.style.cssText = 'position: fixed;top: 15%;left: 0;margin: 0 auto;z-index: 10000000000;width: 100%;text-align: center;';
+                var imgobj = document.createElement("img");
+                imgobj.style.cssText = 'width:70%;height:70%;';
+                imgobj.setAttribute('src',imgStr);
+                imgDiv.appendChild(imgobj);
+                docu.appendChild(imgDiv);
+                docu.appendChild(maskDiv);
+                var closeMaskObj = document.getElementsByClassName("maskDiv")[0];
+                var closeImgObj = document.getElementsByClassName("imgDiv")[0];
+                closeMaskObj.onclick = function(){
+                    docu.removeChild(closeMaskObj);
+                    docu.removeChild(closeImgObj);
+                }
+                closeImgObj.onclick = function(){
+                    docu.removeChild(closeMaskObj);
+                    docu.removeChild(closeImgObj);
+                }
+              },
+              moneyStyleFunc(){//金额字段样式再编辑
+                let vm = this;
+                if(vm.goodsObject.goodsSellType == 2){
+                  let arr = (vm.goodsObject.deposit/100).toFixed(2).toString().split('.');
+                  vm.goodsObj.preSale.depositHtmlStr = '<span style="font-size:.15rem;font-weight: bold;border:none;">¥ <em style="font-size:.24rem;">'+arr[0]+'</em><i>.'+arr[1]+'</i></span>';
+                  if(vm.goodsObject.presellMoney && vm.goodsObject.presellMoney !=''){
+                    let arr1 = (vm.goodsObject.presellMoney/100).toFixed(2).toString().split('.');
+                    vm.goodsObj.preSale.presellMoneyHtmlStr = '<span style="font-size:.12rem;color:#e12e2e;font-weight: bold;border:none;color:#e12e2e;">¥ <em style="font-size:.18rem;">'+arr1[0]+'</em><i style="color:#e12e2e;">.'+arr1[1]+'</i></span>';
+                  }else{
+                    vm.goodsObj.preSale.presellMoneyHtmlStr = '<span style="font-size:.12rem;color:#e12e2e;font-weight: bold;border:none;color:#e12e2e;"> <em style="font-size:.18rem;">'+vm.goodsObject.presellMoneyStr+'</em></span>';
+                  }
+                  if(vm.goodsObject.finalMoney && vm.goodsObject.finalMoney !=''){
+                    let arr2 = (vm.goodsObject.finalMoney/100).toFixed(2).toString().split('.');
+                    vm.goodsObj.preSale.finalMoneyHtmlStr = '<span style="font-size:.12rem;color:#e12e2e;font-weight: bold;border:none;color:#e12e2e;">¥ <em style="font-size:.15rem;">'+arr2[0]+'</em><i style="color:#e12e2e;">.'+arr2[1]+'</i></span>';
+                  }else{
+                    vm.goodsObj.preSale.finalMoneyHtmlStr = '<span style="font-size:.12rem;color:#e12e2e;font-weight: bold;border:none;color:#e12e2e;"> <em style="font-size:.15rem;">'+vm.goodsObject.finalMoneyStr+'</em></span>';
+                  }
+                }
+              },
+            },
+        })
+    </script>
+  </body>
+</html>
+
+
+
+
+
+

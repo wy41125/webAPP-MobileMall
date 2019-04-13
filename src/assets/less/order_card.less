@@ -1,0 +1,125 @@
+@import '../../libs/commnd.less';
+
+  .order_card{
+    width: 100%;
+    height: 100%;
+    font-size: @threeFontSize;
+    .title{
+      width: 100%;
+      ul{
+        width: 100%;
+        background: #fff;
+        height: @titleHeight;
+        li{
+          display: inline-block;
+          width: 32%;
+          line-height: @titleHeight;
+          font-size: @threeFontSize;
+        }
+        .active{
+          border-bottom: 1px solid @themeColor;
+          color:@themeColor;
+        }
+      }
+    }
+    .connet{
+      width: 100%;
+      margin-top: @padding010;
+      .data{
+        width: 100%;
+        .data_div{
+          .crad{
+            margin: 0 auto;
+            margin-bottom: .1rem;
+            width: 92%;
+            height: 1.3rem;
+            background: url('../images/my/coupons/card_new.png') no-repeat;
+            background-size: 100%;
+            position: relative;
+            &.noAvailable{
+              background: url('../images/shopCart/my_quan_background@2x.png') no-repeat;
+              background-size: 100%;
+            }
+            &.height12{
+              height: 1.2rem;
+            }
+            &.height15{
+              height: 1.5rem;
+            }
+            .data_data{
+              width: 100%;
+              height: 65%;
+              color: #fff;
+              p{
+                display: inline-block;
+                height: 100%;
+                font-size: @threeFontSize;
+                vertical-align: top;
+                &.data_data_one{
+                  text-align: left;
+                  width: 35%;
+                  margin: 5% 0 0 2%;
+                  span{
+                    font-size: @fontDig;
+                  }
+                }
+                &.data_data_two{
+                  width: 50%;
+                  margin: 5% 0 0 0;
+                  text-align: left;
+                  span{
+                    display: block;
+
+                  }
+                }
+              }
+            }
+            .data_time{
+              font-size:@fiveFontSize;
+              text-align: left;
+              padding: 0 0.15rem 0 .2rem;
+              color: #a3a3a6;
+              p{
+                padding: .02rem 0;
+              }
+              .data_time_oneP{
+                border-bottom: 1px solid @segmentingLin;
+              }
+              .data_time_twoP{
+                color: @tagging;
+              }
+            }
+          }
+        }
+        .available{
+          padding: 0 0 0 .3rem;
+          width: 100%;
+          position: relative;
+          .clickButton{
+            display: inline-block;
+            width: .2rem;
+            height: .2rem;
+            background: url('../images/my/coupons/choose@2x.png') no-repeat;
+            background-size: .2rem;
+            position: absolute;
+            top: 35%;
+            left: -.3rem;
+            &.onclick{
+              background: url('../images/my/coupons/choose_black@2x.png') no-repeat;
+              background-size: .2rem;
+            }
+          }
+        }
+      }
+      .nodata{
+        text-align: center;
+        margin-top: 1rem;
+        font-size: @threeFontSize;
+        color:#999;
+        img{
+          width: 1.2rem;
+          height: 1rem;
+        }
+      }
+    }
+  }

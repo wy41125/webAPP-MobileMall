@@ -1,0 +1,140 @@
+@import '../../libs/commnd.less';
+.recommend{
+    width: 100%;
+    height: 100%;
+	  background-color: @oneBackgroundColor;
+    font-size: @threeFontSize;
+    .footerLine{//底线
+      width: 100%;
+      height:@footerBotton;
+      line-height: @footerBotton;
+      margin-bottom:0.5rem;
+      hr{ 
+        width: 25%;
+        display: inline-block;
+        vertical-align: middle;
+        color:#ececec;
+        border-width: 0;
+        border-top: 1px solid #ececec;
+      }
+      span{
+        display: inline-block;
+        padding: 0 0.1rem;
+        color:#bcbcbc;
+      }
+    }
+    .red{
+      color: @tagging; 
+    }
+   .box{
+      width: 100%; 
+      .egmentingImg{//标题
+          width: 100%; 
+          height: @footerBotton;
+          display: block;
+          font-size: 0.16rem;
+          background-color: #fff;
+          line-height: @footerBotton;
+          font-weight: bold;
+      }
+      .listNew{
+        width: 100%;
+        height: 100%;
+        .tongyi{
+          // margin:1px;
+          .ordinary,.Bursting-special,.listNew-special,.baohan{
+            margin:1px;
+            display: inline-block;
+            float: left;
+            position: relative;
+            img{
+              width: 100%;
+              height: 100%;
+            }
+            span{
+              display: inline-block;
+              width: 100%;
+              line-height: .14rem;
+              overflow: hidden;
+              text-overflow:ellipsis;
+              white-space: nowrap;
+            }
+            .position{
+              position: absolute;
+              padding: 0.05rem 0.05rem;
+              font-size: 0.11rem;
+              right: 0;
+              top: 0;
+              width: 0.41rem;
+              height: 0.36rem;
+              background: url(../images/home_label.png) no-repeat;
+              background-size: 100%;
+              color: #fff;
+            }
+          }
+          .ordinary,.Bursting-special,.listNew-special{
+            width: 49%;
+            height: 1.45rem;
+            .ordinary_conent{
+              line-height: .16rem;
+              text-align: left;
+              position: absolute;
+              width: 90%;
+              top: 10px;
+              left: 10px;
+              p:nth-child(1){
+                overflow : hidden;
+                            text-overflow: ellipsis;
+                            display: -webkit-box;
+                            -webkit-line-clamp:2;
+                            -webkit-box-orient: vertical;
+              }
+              p:nth-child(2){
+                margin-top: .05rem;
+              }
+            }
+          }
+          .Bursting-special{ 
+            width: 100%;
+            height: 1.45rem;
+          }
+          .listNew-special{
+            height: 2.92rem;
+            width: 49%;
+          }
+          .baohan{
+            width: 49%;
+            // height: 1.6rem;
+            .findDoods_ordinary{
+              background-color: #fff;
+              width: 100%;
+              border-top: 1px solid #f3f3f3;
+              border-left: 1px solid #f3f3f3;
+              padding:0.1rem 0;
+              img{
+                display: block;
+                margin:0 auto;
+                // background-color: #ddd;
+                height: 1.23rem;
+                width: 1.23rem;
+              }
+              .findDoods_conent{
+                margin-top: .1rem;
+                width: 100%;
+                text-align: center;
+              }
+            }
+          }
+        }
+        .advertisement{
+          width: 100%;
+          height: .8rem;
+        }
+      }
+   }
+    
+}
+
+
+  
+  

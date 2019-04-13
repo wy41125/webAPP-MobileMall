@@ -1,0 +1,97 @@
+@import '../../libs/commnd.less';
+.orderTrack{
+	width: 100%;
+	font-size: .14rem;
+	color: #333;
+	.package{
+		width: 100%;
+		background-color: #fff;
+		margin-bottom: .1rem;
+		display: flex;
+		display: -webkit-flex;
+
+		li{
+			flex-grow:1;
+			display: inline-block;
+			// width: 32%;
+			height: .46rem;
+			line-height: .46rem;
+			color: #999;
+			&.active{
+				color: @themeColor;
+				border-bottom: 2px solid @themeColor;
+			}
+		}
+	}
+	.orderXinxi{
+		padding: .1rem .15rem;
+		background-color: #fff;
+		margin-bottom: .1rem;
+		li{
+			text-align: left;
+			padding: .05rem 0;
+		}
+	}
+	.goodXin{
+		padding: .1rem .15rem;
+		text-align: left;
+		background-color: #fff;
+		margin-bottom: .1rem;
+		p{
+			padding: 0.05rem 0;
+		}
+		i{
+			float: right;
+			color: #999;
+		}
+	}
+	.logistics{
+		padding: .1rem .15rem;
+		background-color: #fff;
+		.logistics_div{
+			position: relative;
+			border-left: 1px solid #ececec;
+			padding-left: .15rem;
+			padding-bottom: .2rem;
+			p{
+				text-align: left;
+			}
+			.time{
+				color: #999;
+			}
+			i{
+				display: inline-block;
+				width: .09rem ;
+				height: .09rem;
+				background-color: #ccc;
+				border-radius: .09rem;
+				position: absolute;
+				top: 0;
+				left: -0.05rem;
+				&.one{
+					left: -0.08rem;
+					display: inline-block;
+					width: .16rem ;
+					height: .16rem;
+					background: url('..//images/order/current@2x.png') no-repeat;
+					background-size: .16rem;
+				}
+			}
+		}
+	}
+	.wuliu{
+		margin-bottom: .5rem;
+	}
+	.button{
+		width: 100%;
+		height: .5rem;
+		line-height: .5rem;
+		font-size: .16rem;
+		color: #fff;
+		background: #CEA63F;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		z-index: 100;
+	}
+}
